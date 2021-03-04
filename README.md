@@ -25,6 +25,8 @@ This is especially usefull when thinking of using it live.
 - If you want rigs to be direct selectable you have to assign a MIDI Program Change to your rigs (System page 13)
 - Start with 1 and leave no gap!
 
+
+
 When the app is started it defaults to browse mode, so the mode on the kemper and in the application has to match, this has to be done by you!
 When startet you see in main window just one rig to choose from "rignames" this is the default when no scan has been made with this installation of OSC.
 
@@ -33,9 +35,11 @@ If you have assigned program changes to your rigs these will be called via progr
 When pressing scan you have to wait until it is finished (when the progress bar disappears).
 
 **The same has to be done in performance mode:**
--switch the kemper to performance mode
--switch the application to performance mode
--go to settings and press scan (note that this takes > 10 min, so be patient)
+- switch the kemper to performance mode
+- switch the application to performance mode
+- go to settings and press scan (note that this takes > 10 min, so be patient)
 
 Scanning is just a recursive function, which switches the kemper forward, waits a bit and then asks for the rignames (scanning in performance mode asks for the performance an the corresponding rignames). Please note, that it would be possible to lower the scanning time, but if you have unwanted delay in the request of the kemper, something might go wrong. To use KEKO a really good midi connection and Network connection is a must (if using via tablet or phone).
  
+
+**This is the initial Version use it with caution**
