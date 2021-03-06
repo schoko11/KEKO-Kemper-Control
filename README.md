@@ -57,7 +57,7 @@ To use KEKO a really good midi connection and Network connection is a must
 
 
 **Known limitations / drawbacks / bugs**
-- FX: *Micro Pitch*       Parameter: *Detune*       -> wrong value is displayed (string request of kemper display is not supported)
+- FX: `*Micro Pitch*`       Parameter: `*Detune*`       -> wrong value is displayed (string request of kemper display is not supported)
 - FX: *Chromatic Pitch*   Parameter: *Detune*       -> wrong value is displayed (string request of kemper display is not supported)
 - FX: *Crystal Delay*     Parameter: *Pitch Detune* -> wrong value is displayed (string request of kemper display is not supported)
 - FX: *Loop Pitch Delay*  Parameter: *Pitch Detune* -> wrong value is displayed (string request of kemper display is not supported)
