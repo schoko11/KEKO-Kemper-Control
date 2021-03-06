@@ -10,10 +10,10 @@ OSC (in short for openstagecontrol) is a Server Client Application.
 
 To control your Kemper you normally need to use the rigmanager(or Kemper Remote), so you are mainly forced to use Windows or you run Rigmanager in a virtual machine.
 
-
-`One goal is to use this application on a raspberry pi with a usb midi connection and control (or Monitor) the Kemper from a mobile device.
+```
+One goal is to use this application on a raspberry pi with a usb midi connection and control (or Monitor) the Kemper from a mobile device.
 This is especially usefull when thinking of using it live.
-(Until now this is not tested, this is a future todo).`
+(Until now this is not tested, this is a future todo).```
 
 
 **What has to be done to give it a try?**
@@ -39,7 +39,8 @@ When pressing scan you have to wait until it is finished (when the progress bar 
 >- go to settings and press scan (note that this takes > 10 min, so be patient)
 > - now there is a gap of 750ms between theses steps, it maybe could be lowered, or changed by user input in a future version
 
-`Scanning is just a recursive function, which switches the kemper forward, waits a bit and then asks for the rignames (scanning in performance mode asks for the performance an the corresponding rignames). Please note, that it would be possible to lower the scanning time, but if you have unwanted delay in the request of the kemper, something might go wrong. To use KEKO a really good midi connection and Network connection is a must (especially if using via tablet or phone).`
+```
+Scanning is just a recursive function, which switches the kemper forward, waits a bit and then asks for the rignames (scanning in performance mode asks for the performance an the corresponding rignames). Please note, that it would be possible to lower the scanning time, but if you have unwanted delay in the request of the kemper, something might go wrong. To use KEKO a really good midi connection and Network connection is a must (especially if using via tablet or phone).```
  
 
 **This is the initial Version considered alpha state don't use it in a productive environment**
