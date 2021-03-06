@@ -34,10 +34,10 @@ If you have assigned program changes to your rigs these will be called via progr
 When pressing scan you have to wait until it is finished (when the progress bar disappears).
 
 >**The same has to be done in performance mode:**
-- switch the kemper to performance mode
-- switch the application to performance mode
-- go to settings and press scan (note that this takes > 10 min, so be patient)
-- - now there is a gap of 750ms between theses steps, it maybe could be lowered, or changed by user input in a future version
+>- switch the kemper to performance mode
+>- switch the application to performance mode
+>- go to settings and press scan (note that this takes > 10 min, so be patient)
+> - now there is a gap of 750ms between theses steps, it maybe could be lowered, or changed by user input in a future version
 
 Scanning is just a recursive function, which switches the kemper forward, waits a bit and then asks for the rignames (scanning in performance mode asks for the performance an the corresponding rignames). Please note, that it would be possible to lower the scanning time, but if you have unwanted delay in the request of the kemper, something might go wrong. To use KEKO a really good midi connection and Network connection is a must (especially if using via tablet or phone).
  
