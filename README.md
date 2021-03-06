@@ -44,7 +44,7 @@ Scanning is just a recursive function, which switches the kemper forward, waits 
 
 **This is the initial Version considered alpha state don't use it in a productive environment**
 
-**Known limitations / drawbacks / bugs**
+`**Known limitations / drawbacks / bugs**
 - FX: Micro Pitch       Parameter: Detune       -> wrong value is displayed (string request of kemper display is not supported)
 - FX: Chromatic Pitch   Parameter: Detune       -> wrong value is displayed (string request of kemper display is not supported)
 - FX: Crystal Delay     Parameter: Pitch Detune -> wrong value is displayed (string request of kemper display is not supported)
@@ -71,4 +71,4 @@ Scanning is just a recursive function, which switches the kemper forward, waits 
 - FX: Formant Reverb    Parameter: High Cut     -> wrong value is displayed (string request of kemper display is not supported)
 - FX: Ionosphere Reverb Parameter: Decay Time   -> wrong value is displayed (string request of kemper display is not supported)
 - FX: Ionosphere Reverb Parameter: Attack Time  -> wrong value is displayed (string request of kemper display is not supported)
-- FX: Ionosphere Reverb Parameter: High Cut     -> wrong value is displayed (string request of kemper display is not supported)
+- FX: Ionosphere Reverb Parameter: High Cut     -> wrong value is displayed (string request of kemper display is not supported)`
