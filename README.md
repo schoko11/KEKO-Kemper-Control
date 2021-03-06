@@ -44,8 +44,8 @@ Scanning is just a recursive function, which switches the kemper forward, waits 
 
 **This is the initial Version considered alpha state don't use it in a productive environment**
 
-`**Known limitations / drawbacks / bugs**
-- FX: Micro Pitch       Parameter: Detune       -> wrong value is displayed (string request of kemper display is not supported)
+**Known limitations / drawbacks / bugs**
+`- FX: Micro Pitch       Parameter: Detune       -> wrong value is displayed (string request of kemper display is not supported)
 - FX: Chromatic Pitch   Parameter: Detune       -> wrong value is displayed (string request of kemper display is not supported)
 - FX: Crystal Delay     Parameter: Pitch Detune -> wrong value is displayed (string request of kemper display is not supported)
 - FX: Loop Pitch Delay  Parameter: Pitch Detune -> wrong value is displayed (string request of kemper display is not supported)
