@@ -33,7 +33,7 @@ But don't worry, there is a scanner -> press settings, there you can see the sca
 If you have assigned program changes to your rigs these will be called via program changes one by one (max 128)
 When pressing scan you have to wait until it is finished (when the progress bar disappears).
 
-**The same has to be done in performance mode:**
+>**The same has to be done in performance mode:**
 - switch the kemper to performance mode
 - switch the application to performance mode
 - go to settings and press scan (note that this takes > 10 min, so be patient)
