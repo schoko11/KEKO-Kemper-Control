@@ -17,7 +17,7 @@ This is especially usefull when thinking of using it live.
 
 
 **What has to be done to give it a try?**
-- OSC (the programm directory) should be placed in a folder with full permissions (KEKO is reading and writing file in the install dir, maybe needs to be change in the future)
+- OSC (the programm directory) should be placed in a folder with full permissions (KEKO is reading and writing files in the install dir, maybe needs to be changed in the future)
 - load the *.config file when you first start OSC
 - Point "load" to the *.JSON file and "custom-module" to the *.JS file
 - setup midi correct by "[custom Name]:[input port], [output port] sysex" -> choose the ports after viewing them with "list midi devices" from the server menu
@@ -38,8 +38,22 @@ When pressing scan you have to wait until it is finished (when the progress bar 
 - switch the kemper to performance mode
 - switch the application to performance mode
 - go to settings and press scan (note that this takes > 10 min, so be patient)
+- - now there is a gap of 750ms between theses steps, it maybe could be lowered, or changed by user input in a future version
 
-Scanning is just a recursive function, which switches the kemper forward, waits a bit and then asks for the rignames (scanning in performance mode asks for the performance an the corresponding rignames). Please note, that it would be possible to lower the scanning time, but if you have unwanted delay in the request of the kemper, something might go wrong. To use KEKO a really good midi connection and Network connection is a must (if using via tablet or phone).
+Scanning is just a recursive function, which switches the kemper forward, waits a bit and then asks for the rignames (scanning in performance mode asks for the performance an the corresponding rignames). Please note, that it would be possible to lower the scanning time, but if you have unwanted delay in the request of the kemper, something might go wrong. To use KEKO a really good midi connection and Network connection is a must (especially if using via tablet or phone).
  
 
-**This is the initial Version use it with caution**
+**This is the initial Version considered alpha state don't use it in a productive environment**
+
+**Known limitations / drawbacks / bugs**
+- FX: Micro Pitch       Parameter: Detune       -> wrong value is displayed (string request of kemper display is not supported)
+- FX: Chromatic Pitch   Parameter: Detune       -> wrong value is displayed (string request of kemper display is not supported)
+- FX: Crystal Delay     Parameter: Pitch Detune -> wrong value is displayed (string request of kemper display is not supported)
+- FX: Loop Pitch Delay  Parameter: Pitch Detune -> wrong value is displayed (string request of kemper display is not supported)
+- FX: Dual Crystal      Parameter: Pitch Detune -> wrong value is displayed (string request of kemper display is not supported)
+- FX: Dual Loop         Parameter: Pitch Detune -> wrong value is displayed (string request of kemper display is not supported)
+- FX: Melody Chromatic  Parameter: Pitch Detune -> wrong value is displayed (string request of kemper display is not supported)
+- FX: Quad Chromatic    Parameter: Pitch Detune -> wrong value is displayed (string request of kemper display is not supported)
+- FX: Vibrato           Parameter: Depth        -> wrong value is displayed (string request of kemper display is not supported)
+- FX: Tremolo           Parameter: Rate         -> wrong value is displayed (string request of kemper display is not supported)
+- FX: Phaser            Parameter: Rate         -> wrong value is displayed (string request of kemper display is not supported)
