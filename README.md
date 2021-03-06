@@ -3,8 +3,8 @@ Control your Kemper by MIDI via Touchscreen
 KEKO is based on and made with Open Stage Control (https://openstagecontrol.ammd.net)
 OSC (in short for openstagecontrol) is a Server Client Application. 
 
-This Project is made and designed on a 24" Touchscreen and allows you to control a lot of the Parameters the Kemper has to offer.
-Nevertheless the GUI is setup by percentages of screensize, meaning the ratio between the object is the same on every viewing Device.
+>This Project is made and designed on a 24" Touchscreen and allows you to control a lot of the Parameters the Kemper has to offer.
+>Nevertheless the GUI is setup by percentages of screensize, meaning the ratio between the object is the same on every viewing Device.
 
 **To use KEKO you need a really good midi connection and Touchscreen or a connection to the Network where the Server is running.**
 
@@ -27,9 +27,8 @@ This is especially usefull when thinking of using it live.
 
 
 
-When the app is started it defaults to browse mode, so the mode on the kemper and in the application has to match, this has to be done by you!
-When startet you see in main window just one rig to choose from "rignames" this is the default when no scan has been made with this installation of OSC.
-
+>When the app is started it defaults to browse mode, so the mode on the kemper and in the application has to match, this has to be done by you!
+>When startet you see in main window just one rig to choose from "rignames" this is the default when no scan has been made with this installation of OSC.
 But don't worry, there is a scanner -> press settings, there you can see the scan button.
 If you have assigned program changes to your rigs these will be called via program changes one by one (max 128)
 When pressing scan you have to wait until it is finished (when the progress bar disappears).
