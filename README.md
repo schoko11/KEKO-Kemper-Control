@@ -52,7 +52,9 @@ To use KEKO a really good midi connection and Network connection is a must
 
  
 
+
 **This is the initial Version considered alpha state don't use it in a productive environment**
+
 
 **Known limitations / drawbacks / bugs**
 - FX: *Micro Pitch*       Parameter: *Detune*       -> wrong value is displayed (string request of kemper display is not supported)
