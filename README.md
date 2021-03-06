@@ -29,10 +29,11 @@ To control your Kemper you normally need to use the rigmanager(or Kemper Remote)
 
 
 >When the app is started it defaults to browse mode, so the mode on the kemper and in the application has to match, this has to be done by you!
->When startet you see in main window just one rig to choose from "rignames" this is the default when no scan has been made with this installation of OSC.
-But don't worry, there is a scanner -> press settings, there you can see the scan button.
-If you have assigned program changes to your rigs these will be called via program changes one by one (max 128)
-When pressing scan you have to wait until it is finished (when the progress bar disappears).
+>When startet you see in main window just one rig to choose from -> "rignames". 
+>This is the default when no scan has been made with this installation of OSC.
+>But don't worry, there is a scanner -> press settings, there you can see the scan button.
+>If you have assigned program changes to your rigs these will be called via program changes one by one (max 128)
+>When pressing scan you have to wait until it is finished (when the progress bar disappears).
 
 >**The same has to be done in performance mode:**
 >- switch the kemper to performance mode
