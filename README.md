@@ -87,3 +87,10 @@ To use KEKO a really good midi connection and Network connection is a must
 - FX: `Ionosphere Reverb` Parameter: `High Cut`     -> wrong value is displayed (string request of kemper display is not supported)
 - When setting a stomp effect to off the css property is greyed out (it should be only greyed out when an active stomp is deactived by deactivating STOMPS or EFFECTS -> to be fixed)
 - At some points a little waiting of 300ms has been added after changing the rig, so that the values are updated for the current rig and not the rig before (maybe adding a user changeable value in the future)
+
+TODO:
+- [ ] Volumes of Output Section not rendered correctly
+- [ ] Think about a setting to choose from different layouts -> fewer objects and less midi and network traffic 
+- [ ] Nicer GUI
+- [ ] Some SYSTEM controls are not implemented (Monitor out / Main out / input source / pure cabinet ...)
+- [ ] How to handle not renderable non-linear values listed above ?
