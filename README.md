@@ -25,6 +25,7 @@ To control your Kemper you normally need to use the rigmanager(or Kemper Remote)
 - On the Kemper itself in the System settings on page 15, you have to activate "UI to MIDI"
 - If you want rigs to be direct selectable you have to assign a MIDI Program Change to your rigs (System page 13)
 - Start with 1 and leave no gap!
+- This Version uses OS 8.0.6 this must match with your profiles
 
 
 
@@ -84,4 +85,5 @@ To use KEKO a really good midi connection and Network connection is a must
 - FX: `Ionosphere Reverb` Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)
 - FX: `Ionosphere Reverb` Parameter: `Attack Time`  -> wrong value is displayed (string request of kemper display is not supported)
 - FX: `Ionosphere Reverb` Parameter: `High Cut`     -> wrong value is displayed (string request of kemper display is not supported)
-- Deactivated FX are not shown when Stomp is off (i think there is no alternative for this) 
+- When setting a stomp effect to off the css property is greyed out (it should be only greyed out when an active stomp is deactived by deactivating STOMPS or EFFECTS -> to be fixed)
+- At some points a little waiting of 300ms has been added after changing the rig, so that the values are updated for the current rig and not the rig before (maybe adding a user changeable value in the future)
