@@ -10,7 +10,7 @@ OSC (in short for openstagecontrol) is a Server Client Application.
 
 **To use KEKO you need a really good midi connection and Touchscreen or a connection to the Network where the Server is running.**
 
-To control your Kemper you normally need to use the rigmanager(or Kemper Remote), so you are mainly forced to use Windows or you run Rigmanager in a virtual machine.
+To control your Kemper you normally need to use the Rigmanager(or Kemper Remote), so you are mainly forced to use Windows or you run Rigmanager in a virtual machine.
 
 
 >One goal is to use this application on a raspberry pi with a usb midi connection. 
@@ -32,7 +32,7 @@ To control your Kemper you normally need to use the rigmanager(or Kemper Remote)
 
 
 
->When the app is started it defaults to browse mode, so the mode on the kemper and in the application has to match, this has to be done by you!
+>When the app is started it defaults to browse mode, so the mode on the Kemper and in the application has to match, this has to be done by you!
 >When startet you see in main window just one rig to choose from -> "rignames". 
 >This is the default when no scan has been made with this installation of OSC.
 >But don't worry, there is a scanner -> press settings, there you can see the scan button.
@@ -40,13 +40,13 @@ To control your Kemper you normally need to use the rigmanager(or Kemper Remote)
 >When pressing scan you have to wait until it is finished (when the progress bar disappears).
 
 >**The same has to be done in performance mode:**
->- switch the kemper to performance mode.
+>- switch the Kemper to performance mode.
 >- switch the application to performance mode.
 >- go to settings and press scan (note that this takes > 10 min, so be patient).
 > - now there is a gap of 750ms between theses steps, it maybe could be lowered, or changed by user input in a future version.
 
 
-Scanning is just a recursive function, which switches the kemper forward, 
+Scanning is just a recursive function, which switches the Kemper forward, 
 waits a bit and then asks for the rignames 
 (scanning in performance mode asks for the performance an the corresponding rignames). 
 Please note, that it would be possible to lower the scanning time, but if you have 
