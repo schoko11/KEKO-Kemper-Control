@@ -27,7 +27,7 @@ To control your Kemper you normally need to use the Rigmanager(or Kemper Remote)
 - On the Kemper itself in the System settings on page 15, you have to activate "UI to MIDI".
 - If you want rigs to be direct selectable you have to assign a MIDI Program Change to your rigs (System page 13).
 - Start with 1 and leave no gap!
-- This Version uses OS 8.0.6 this must match with your profiles.
+- This Version uses OS 8.0.6 this must match with your Profiler.
 - When you start the server by pressing the play button you see the ip where you can start the client(means your Browser), you just have to be in the same network.
 
 
@@ -96,5 +96,7 @@ To use KEKO a really good midi connection and Network connection is a must
 - [ ] Volumes of Output Section not rendered correctly
 - [ ] Think about a setting to choose from different layouts -> fewer objects and less midi and network traffic 
 - [ ] Nicer GUI
+- [ ] Use SVG symbols on AMP, CAB
+- [ ] Color the FX like the colors on the Kemper
 - [ ] Some SYSTEM controls are not implemented (Monitor out / Main out / input source / pure cabinet ...)
 - [ ] How to handle not renderable non-linear values listed above ?
