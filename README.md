@@ -3,7 +3,7 @@ Control your Kemper by MIDI via Touchscreen
 KEKO is based on and made with Open Stage Control (https://openstagecontrol.ammd.net)
 OSC (in short for openstagecontrol) is a Server Client Application.
 
-[KEKO_0_0_1_alpha](https://user-images.githubusercontent.com/41967358/110244950-87b0d380-7f61-11eb-8742-7d8ed8e8bfc3.jpg)
+[KEKO_0_0_2_alpha](https://user-images.githubusercontent.com/41967358/110244950-87b0d380-7f61-11eb-8742-7d8ed8e8bfc3.jpg)
 
 >This Project is made and designed on a 24" Touchscreen and allows you to control a lot of the Parameters the Kemper has to offer.
 >Nevertheless the GUI is setup by percentages of screensize, meaning the ratio between the object is the same on every viewing Device.
