@@ -3,7 +3,7 @@ Control your Kemper by MIDI via Touchscreen
 KEKO is based on and made with Open Stage Control (https://openstagecontrol.ammd.net)
 OSC (in short for openstagecontrol) is a Server Client Application.
 
-[KEKO_0_0_2_alpha](https://user-images.githubusercontent.com/41967358/110244950-87b0d380-7f61-11eb-8742-7d8ed8e8bfc3.jpg)
+[KEKO_0_0_3_alpha](https://user-images.githubusercontent.com/41967358/110244950-87b0d380-7f61-11eb-8742-7d8ed8e8bfc3.jpg)
 
 >This Project is made and designed on a 24" Touchscreen and allows you to control a lot of the Parameters the Kemper has to offer.
 >Nevertheless the GUI is setup by percentages of screensize, meaning the ratio between the object is the same on every viewing Device.
@@ -61,7 +61,7 @@ To use KEKO a really good midi connection and Network connection is a must
 
 
 **Known limitations / drawbacks / bugs**
-- FX: `Micro Pitch`       Parameter: `Detune`       -> wrong value is displayed (string request of kemper display is not supported)
+- ~~FX: `Micro Pitch`       Parameter: `Detune`~~       -> experimental support, a math. approach has to be found
 - FX: `Chromatic Pitch`   Parameter: `Detune`       -> wrong value is displayed (string request of kemper display is not supported)
 - FX: `Crystal Delay`     Parameter: `Pitch Detune` -> wrong value is displayed (string request of kemper display is not supported)
 - FX: `Loop Pitch Delay`  Parameter: `Pitch Detune` -> wrong value is displayed (string request of kemper display is not supported)
@@ -73,7 +73,7 @@ To use KEKO a really good midi connection and Network connection is a must
 - FX: `Tremolo`           Parameter: `Rate`         -> wrong value is displayed (string request of kemper display is not supported)
 - FX: `Phaser`            Parameter: `Rate`         -> wrong value is displayed (string request of kemper display is not supported)
 - FX: `Phaser Vibe`       Parameter: `Rate`         -> wrong value is displayed (string request of kemper display is not supported)
-- FX: `Flanger`           Parameter: `Rate`         -> wrong value is displayed (string request of kemper display is not supported)
+- ~~FX: `Flanger`           Parameter: `Rate`         -> wrong value is displayed (string request of kemper display is not supported)~~
 - FX: `Spring Reverb`     Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)
 - FX: `Natural Reverb`    Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)
 - FX: `Easy Reverb`       Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)
@@ -99,4 +99,5 @@ To use KEKO a really good midi connection and Network connection is a must
 - [ ] Use SVG symbols on AMP, CAB
 - [ ] Color the FX like the colors on the Kemper
 - [ ] Some SYSTEM controls are not implemented (Monitor out / Main out / input source / pure cabinet ...)
-- [ ] How to handle not renderable non-linear values listed above ?
+- [ ] How to handle not renderable non-linear values listed above (partly approach found)?
+ 
