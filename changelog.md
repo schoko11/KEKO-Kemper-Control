@@ -1,8 +1,18 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.0.3-Alpha] - 2021-03-21
+
+### Cleanup
+
+- Get rid of unecessary javascript objects and variables(changed var to let).
+- Remove theme "nord" -> default theme more blueish.
 
 
+### Fixed
+
+- Added support for correct value rendering: Knob: Detune, FX: Micro Pitch.
+- Added experimental support for correct value rendering: Knob: Rate, FX: Rate(a math formular approach should found).
 
 
 ## [0.0.2-Alpha] - 2021-03-13
