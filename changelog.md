@@ -1,6 +1,18 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## [0.0.4-Alpha] - 2021-03-28
+
+### Added
+- Start with implementation of basic colors for the main FX categories
+
+### Fixed
+
+- Added support/experimental support for all not correct displayed values(not 100% accurate but quite close)
+- Removed pre Alphas from Releases
+
+
 ## [0.0.3-Alpha] - 2021-03-21
 
 ### Cleanup
