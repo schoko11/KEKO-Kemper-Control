@@ -61,33 +61,33 @@ To use KEKO a really good midi connection and Network connection is a must
 
 
 **Known limitations / drawbacks / bugs**
-- ~~FX: `Micro Pitch`       Parameter: `Detune`       -> experimental support, a math. approach has to be found
-- ~~FX: `Chromatic Pitch`   Parameter: `Detune`       -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Crystal Delay`     Parameter: `Pitch Detune` -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Loop Pitch Delay`  Parameter: `Pitch Detune` -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Dual Crystal`      Parameter: `Pitch Detune` -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Dual Loop`         Parameter: `Pitch Detune` -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Melody Chromatic`  Parameter: `Pitch Detune` -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Quad Chromatic`    Parameter: `Pitch Detune` -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Vibrato`           Parameter: `Depth`        -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Tremolo`           Parameter: `Rate`         -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Phaser`            Parameter: `Rate`         -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Phaser Vibe`       Parameter: `Rate`         -> wrong value is displayed (string request of kemper display is not supported)
+- ~~FX: `Micro Pitch`       Parameter: `Detune`       -> experimental support, a math. approach has to be found~~
+- ~~FX: `Chromatic Pitch`   Parameter: `Detune`       -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Crystal Delay`     Parameter: `Pitch Detune` -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Loop Pitch Delay`  Parameter: `Pitch Detune` -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Dual Crystal`      Parameter: `Pitch Detune` -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Dual Loop`         Parameter: `Pitch Detune` -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Melody Chromatic`  Parameter: `Pitch Detune` -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Quad Chromatic`    Parameter: `Pitch Detune` -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Vibrato`           Parameter: `Depth`        -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Tremolo`           Parameter: `Rate`         -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Phaser`            Parameter: `Rate`         -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Phaser Vibe`       Parameter: `Rate`         -> wrong value is displayed (string request of kemper display is not supported)~~
 - ~~FX: `Flanger`           Parameter: `Rate`         -> wrong value is displayed (string request of kemper display is not supported)~~
-- ~~FX: `Spring Reverb`     Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Natural Reverb`    Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Easy Reverb`       Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Legacy Reverb`     Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Legacy Reverb`     Parameter: `Room Size`    -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Echo Reverb`       Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Cirrus Reverb`     Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Cirrus Reverb`     Parameter: `Attack Time`  -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Formant Reverb`    Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Formant Reverb`    Parameter: `Attack Time`  -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Formant Reverb`    Parameter: `High Cut`     -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Ionosphere Reverb` Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Ionosphere Reverb` Parameter: `Attack Time`  -> wrong value is displayed (string request of kemper display is not supported)
-- ~~FX: `Ionosphere Reverb` Parameter: `High Cut`     -> wrong value is displayed (string request of kemper display is not supported)
+- ~~FX: `Spring Reverb`     Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Natural Reverb`    Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Easy Reverb`       Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Legacy Reverb`     Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Legacy Reverb`     Parameter: `Room Size`    -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Echo Reverb`       Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Cirrus Reverb`     Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Cirrus Reverb`     Parameter: `Attack Time`  -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Formant Reverb`    Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Formant Reverb`    Parameter: `Attack Time`  -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Formant Reverb`    Parameter: `High Cut`     -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Ionosphere Reverb` Parameter: `Decay Time`   -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Ionosphere Reverb` Parameter: `Attack Time`  -> wrong value is displayed (string request of kemper display is not supported)~~
+- ~~FX: `Ionosphere Reverb` Parameter: `High Cut`     -> wrong value is displayed (string request of kemper display is not supported)~~
 - When setting a stomp effect to off the css property is greyed out (it should be only greyed out when an active stomp is deactived by deactivating STOMPS or EFFECTS -> to be fixed)
 - At some points a little waiting of 300ms has been added after changing the rig, so that the values are updated for the current rig and not the rig before (maybe adding a user changeable value in the future)
 
