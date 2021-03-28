@@ -4,7 +4,6 @@ let stompArgs = ['A',' 32 ',17,'B',' 33 ', 18,'C',' 34 ',19,'D', ' 35 ',20, 'X',
 const fs = nativeRequire('fs');
 //const path = nativeRequire('path');
 //let Buffer = nativeRequire('buffer').Buffer;  //needed for nodejs buffer , parse strings as hexstrings
-
 let maxFxControls = 36;
 
 let stompTemp,stompIdent,curFxId,fxKnobFinalValue,stompFxIdent; 
