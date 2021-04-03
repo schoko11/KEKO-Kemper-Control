@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.0-Alpha] - 2021-04-03
+
+### Added
+- Main Fx Categories have now colors, roughly made like on the kemper, needs more finetuning
+- Added main.js file, the starting point and add a seperate js file for the kemper, now this project can be easily used in bigger OSC projects 
+
+
 ## [0.0.4-Alpha] - 2021-03-28
 
 ### Added
