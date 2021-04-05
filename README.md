@@ -65,11 +65,12 @@ To use KEKO a really good midi connection and Network connection is a must
 **TODO:**
 
 - [ ] Volumes of Output Section not rendered correctly
-- [x] Think about a setting to choose from different layouts -> fewer objects and less midi and network traffic 
+- [x] Think about a setting to choose from different layouts -> fewer objects and less midi and network traffic (with 0.2.0)
 - [ ] Nicer GUI
 - [ ] Use SVG symbols on AMP, CAB
 - [x] Color the FX like the colors on the Kemper (with 0.1.0)
 - [ ] Some SYSTEM controls are not implemented (Monitor out / Main out / input source / pure cabinet ...)
 - [x] How to handle not renderable non-linear values listed above (partly approach found)?
 - [x] Make modules to simplify handling in bigger projects
+- [ ] Various Code cleanups, maybe splitting definitions in a seperate module file
  
