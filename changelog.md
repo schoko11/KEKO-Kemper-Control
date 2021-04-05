@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0-Alpha] - 2021-04-05
+
+### Added
+- Added adjustable layout, switchable in SETTINGS (FULL / LIVE)
+- Added Button for switching Tuner on / off
+
+### Fixed
+- Main Fx Categories, when selecting "all" -> Fx name not displayed / wrong
+- When switching between Performance and Browse, when switch the Kemper the wrong Rig was displayed
+
 ## [0.1.0-Alpha] - 2021-04-03
 
 ### Added
