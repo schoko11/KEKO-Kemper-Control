@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.1-Alpha] - 2021-04-08
+
+### Added
+- Some kind of zebra on the selection fields (uneven)
+
+### Fixed / changed
+- Various code cleanups (still a lot to do)
+- Adjusted alignment of gui components
+- Adjust overall color scheme to more blueish, get rid of too much colors
+
 ## [0.2.0-Alpha] - 2021-04-05
 
 ### Added
