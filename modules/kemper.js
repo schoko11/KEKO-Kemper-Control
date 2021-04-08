@@ -1,5 +1,5 @@
 	//variable and object definitions		
-let stompArgs = ['A',' 32 ',17,'B',' 33 ', 18,'C',' 34 ',19,'D', ' 35 ',20, 'X', ' 38 ',22,'M', ' 3a ',24, 'E', ' 3c ',26, 'R', ' 3d ',28  ];  //stomp update in osc outfilter
+const _stompArgs = ['A',' 32 ',17,'B',' 33 ', 18,'C',' 34 ',19,'D', ' 35 ',20, 'X', ' 38 ',22,'M', ' 3a ',24, 'E', ' 3c ',26, 'R', ' 3d ',28  ];  //stomp update in osc outfilter
 
 const fs = nativeRequire('fs');
 //const path = nativeRequire('path');
@@ -42,10 +42,23 @@ let midiDeviceName;   //midi: "UCX1:0,1 sysex"
 let sendIp;// = '127.0.0.1';      //send: 127.0.0.1:8000 
 let serverPort;// = '9000';       //port: 9000 
 
+const _sysReqStr = 'f0 00 20 33 02 7f 43 00 ';		//sysex for string request
+const _sysReqSinPar = 'f0 00 20 33 02 7f 41 00 ';  	//sysex for single parameter request
+const _sysReqMultPar = 'f0 00 20 33 02 7f 42 00 ';	//sysex for multi parameter request  
+const _sysReqExtStr = 'f0 00 20 33 02 7f 47 00 ';	//sysex for extended string request
+const _sysChgSinPar = 'f0 00 20 33 02 7f 01 00 ';	//sysex for change a single parameter
+const _sysReqRendStr = 'f0 00 20 33 02 7f 7c 00 ';	//sysex for parameter value as rendered string
+const _sysAnswSinPar = 'f0 00 20 33 00 00 01 00 ';  //sysex Answer / incoming single parameter
+const _sysAnswMulPar = 'f0 00 20 33 00 00 02 ';		//sysex Answer / incoming multi parameter
+const _sysAnswStr = 'f0 00 20 33 00 00 03 00 ';		//sysex Answer incoming string request
+const _sysAnswExtStr = 'f0 00 20 33 00 00 07 ';		//sysex Answer incoming extended string 
+const _sysAnswRendStr = 'f0 00 20 33 02 7f 3c 00 ';	//sysex Answer incoming rendered string
+const _sysRigName = '00 01';
+
 //obj to show ,hide or move varios gui object, according to view in settings
 const viewObjDef = {
 	"LIVE": [{"id": "rigDetailPanel","Visible": 0,"Interaction": 0,"Left": "52.01%","Top": "60.2%","Width": "7%","Height": "8.7%"	},
-			 {"id": "rigSection1","Visible": 0,"Interaction": 0,"Left": 0,"Top": "52%","Width": "18.2%","Height": "4.2%"	},
+			 {"id": "rigSection1","Visible": 0,"Interaction": 0,"Left": 0,"Top": "52%","Width": "18%","Height": "4.2%"	},
 			 {"id": "rigSection2","Visible": 0,"Interaction": 0,"Left": "29.5%","Top": "70.2%","Width": "29.5%","Height": "4.7%"	},
 			// {"id": "rigSection2F","Visible": 0,"Interaction": 0,"Left": 0,"Top": 0,"Width": "50%","Height": "100%"	},    //CAB
 			 {"id": "stackCabPanel","Visible": 0,"Left": "48%","Top": "74.9%","Width": "11%","Height": "5.6%"	},
@@ -55,8 +68,8 @@ const viewObjDef = {
 			 {"id": "rigSection3","Visible": 0,"Interaction": 0,"Left": "82%","Top": "52%","Width": "18%","Height": "4.2%"	},
 			 {"id": "stompPanel","Visible": 0,"Left": 0,"Top": "56.5%","Width": "18.2%","Height": "4.5%"	},
 			 {"id": "outputFrame","Visible": 0,"Interaction": 0,"Left": "88.8%","Top": "78%","Width": "11.17%","Height": "22%"	},
-			 {"id": "rigBrowseSelRight","Left": "89%","Top": "60.2%","Width": "10%","Height": "18%"	},
-			 {"id": "rigBrowseSelLeft","Left": "78%","Top": "60.2%","Width": "10%","Height": "18%"	},
+			 {"id": "rigBrowseSelRight","Left": "89%","Top": "60.1%","Width": "10%","Height": "18%"	},
+			 {"id": "rigBrowseSelLeft","Left": "78%","Top": "60.1%","Width": "10%","Height": "18%"	},
 			// {"id": "kempFxDetF","Visible": 0,"Interaction": 0,"Left": "50%","Top": 0,"Width": "50%","Height": "100%"	},
 		//	 {"id": "kempFxDetP","Visible": 0,"Interaction": 0,"Left": "50%","Top": 0,"Width": "50%","Height": "100%"	},
 			 {"id": "clone_HeadphoneOutVolText","Visible": 0,"Interaction": 0,"Left": "94.45%","Top": "81.65%","Width": "5.2%","Height": "5.75%"	},
@@ -64,17 +77,17 @@ const viewObjDef = {
 			 {"id": "clone_MonOutVolText","Visible": 0,"Interaction": 0,"Left": "94.45%","Top": "87.5%","Width": "5.2%","Height": "5.75%"	},
 			 {"id": "clone_DirOutVolText","Visible": 0,"Interaction": 0,"Left": "89.2%","Top": "90.5%","Width": "5.2%","Height": "5.75%"	},
 			 {"id": "clone_SPDIFVolText","Visible": 0,"Interaction": 0,"Left": "94.45%","Top": "93.5%","Width": "5.2%","Height": "5.75%"	},
-			 {"id": "kempSetting","Visible": 1,"Interaction": 1,"Left": "82%","Top": "94.4%","Width": "9%","Height": "5.6%"	},
+			 {"id": "kempSetting","Visible": 1,"Interaction": 1,"Left": "82%","Top": "93.9%","Width": "9%","Height": "5.6%"	},
 			 {"id": "rigsAndPerfSel","Visible": 1,"Interaction": 1,"Left": 0,"Top": "52%","Width": "100%","Height": "6.72%"	},
 			 {"id": "perfRigs","Left": "59.7%","Top": "60%","Width": "31%","Height": "30%"	},
 			 {"id": "rigDetailsFrame","Left": 0,"Top": "59.7%","Width": "59.25%","Height": "17%"	},
 			 {"id": "kempRignameText","Left": "1%","Top": "61%","Width": "57.25%","Height": "14.2%","css": "font-size: 650%"	},
 			 {"id": "kempRigVol","Left": "92%","Top": "80.5%","Width": "6.5%","Height": "13%"	},
-			 {"id": "kempRigVolText","Left": "92%","Top": "96%","Width": "6.5%","Height": "3.5%"	},
+			 {"id": "kempRigVolText","Left": "92%","Top": "95.5%","Width": "6.5%","Height": "3.5%"	},
 			
 	],
 	"FULL": [{"id": "rigDetailPanel","Visible": 1,"Interaction": 1, "Left": "52.01%","Top": "60.2%","Width": "7%","Height": "8.7%"	},
-			{"id": "rigSection1","Visible": 1,"Interaction": 1,"Left": 0,"Top": "52%","Width": "18.2%","Height": "4.2%"	},		//STOMPS
+			{"id": "rigSection1","Visible": 1,"Interaction": 1,"Left": 0,"Top": "52%","Width": "18%","Height": "4.2%"	},		//STOMPS
 			{"id": "rigSection2","Visible": 1,"Interaction": 1,"Left": "29.5%","Top": "70.2%","Width": "29.5%","Height": "4.7%"	},					//STACKS
 			//{"id": "rigSection2F","Visible": 1,"Interaction": 1,"Left": 0,"Top": 0,"Width": "50%","Height": "100%"	},  //CAB
 			{"id": "stackCabPanel","Visible": 1,"Left": "48%","Top": "74.9%","Width": "11%","Height": "5.6%"	},
@@ -84,8 +97,8 @@ const viewObjDef = {
 			{"id": "rigSection3","Visible": 1,"Interaction": 1,"Left": "82%","Top": "52%","Width": "18%","Height": "4.2%"	},
 			{"id": "stompPanel","Visible": 1,"Left": 0,"Top": "56.5%","Width": "18%","Height": "4.5%"	},
 			{"id": "outputFrame","Visible": 1,"Interaction": 0,"Left": "88.8%","Top": "78%","Width": "11.17%","Height": "22%"	},
-			{"id": "rigBrowseSelRight","Left": "71%","Top": "60.2%","Width": "10%","Height": "8.5%"	},
-			{"id": "rigBrowseSelLeft","Left": "60%","Top": "60.2%","Width": "10%","Height": "8.5%"	},	
+			{"id": "rigBrowseSelRight","Left": "71%","Top": "60.1%","Width": "10%","Height": "8.75%"	},
+			{"id": "rigBrowseSelLeft","Left": "60%","Top": "60.1%","Width": "10%","Height": "8.75%"	},	
 			//{"id": "kempFxDetF","Visible": 1,"Interaction": 1,"Left": "50%","Top": 0,"Width": "50%","Height": "100%"	},   //CAB FX det.
 		//	{"id": "kempFxDetP","Visible": 1,"Interaction": 1,"Left": "50%","Top": 0,"Width": "50%","Height": "100%"	},
 			{"id": "clone_HeadphoneOutVolText","Visible": 1,"Interaction": 1,"Left": "94.45%","Top": "81.65%","Width": "5.2%","Height": "5.75%"	},
@@ -94,12 +107,12 @@ const viewObjDef = {
 			{"id": "clone_DirOutVolText","Visible": 1,"Interaction": 1,"Left": "89.2%","Top": "90.5%","Width": "5.2%","Height": "5.75%"	},
 			{"id": "clone_SPDIFVolText","Visible": 1,"Interaction": 1,"Left": "94.45%","Top": "93.5%","Width": "5.2%","Height": "5.75%"	},
 			{"id": "kempSetting","Visible": 1,"Interaction": 1,"Left": "19.4%","Top": "70.2%","Width": "9%","Height": "5.6%"	},
-			{"id": "rigsAndPerfSel","Visible": 1,"Interaction": 1,"Left": "18.34%","Top": "52%","Width": "63.47%","Height": "6.72%"	},
+			{"id": "rigsAndPerfSel","Visible": 1,"Interaction": 1,"Left": "18%","Top": "52%","Width": "64%","Height": "6.72%"	},
 			{"id": "perfRigs","Left": "59.7%","Top": "60%","Width": "21.5%","Height": "30%"	},
-			{"id": "rigDetailsFrame","Left": "18.25%","Top": "59.7%","Width": "41%","Height": "9.61%"	},
-			{"id": "kempRignameText","Left": "18.72%","Top": "61%","Width": "33%","Height": "7%","css": "font-size: 220%"	},
+			{"id": "rigDetailsFrame","Left": "19.1%","Top": "59.7%","Width": "40.15%","Height": "9.61%"	},
+			{"id": "kempRignameText","Left": "19.8%","Top": "61%","Width": "31.9%","Height": "7%","css": "font-size: 220%"	},
 			{"id": "kempRigVol","Left": "82%","Top": "80.5%","Width": "6.5%","Height": "13%"	},
-			{"id": "kempRigVolText","Left": "82%","Top": "96%","Width": "6.5%","Height": "3.5%"	},
+			{"id": "kempRigVolText","Left": "82%","Top": "95.5%","Width": "6.5%","Height": "3.5%"	},
 	]
 	
 
@@ -111,6 +124,35 @@ const stompFxKEYS = ["00 00","00 01","00 02","00 03","00 04","00 06","00 07","00
 					 "00 41","00 42","00 43","00 47","00 44","00 45","00 46","00 51","00 52","00 53","00 59","00 5b","01 01","00 0b","00 0d","01 02","01 03","01 04","01 12","01 13","01 14","01 15",
 					 "01 21","01 24","01 11","01 16","01 17","01 18","01 09","01 0a","01 0b","01 0c","01 22","01 23","01 25","01 26","01 41","01 32","01 33","01 34","01 35","01 36","01 37",
 					 "00 40","01 31","00 79","00 7a","00 7b"];
+
+//these nonlinear are values are treated special, so we interpolate when numbers, or present the value of an object					 
+const stompFxSpecialKeys = ["15 00 47", 	//micro pitch detune
+							"3a 01 02",		//chromatic pitch detune
+							"14 00 46",		//remolo rate
+							"14 00 59",		//flange rate
+							"5d 01 41",		//spring reverb decay time	
+							"5d 01 34",		//echo reverb decay time
+							"5d 01 35",		//cirrus reverb decay time
+							"47 01 35",		//cirrus reverb attack time
+							"44 01 36",		//formant reverb high cut
+							"44 01 37",		//ionosphere reverb high cut
+							"47 01 37",		//ionosphere reverb attack time
+							"47 01 36",		//formant reverb attack time
+							"5d 01 37",		//ionosphere reverb decay time
+							"5d 01 36",		//formant reverb decay time
+							"5d 01 31",		//legacy reverb decay time
+							"5d 01 33",		//easy reverb decay time
+							"5d 01 32",		//natural reverb decay time
+							"14 00 52",		//phaser vibe rate
+							"14 00 51",		//phaser rate
+							"3a 01 25",		//quad chromatic pitch detune
+							"3a 01 22",		//melody chromatic pitch detune
+							"3a 01 0c",		//dual loop pitch detune
+							"3a 01 0b",		//dual crystal pitch detune
+							"3a 01 17",		//loop pitch delay pitch detune
+							"3a 01 16",		//crystal delay pitch detune
+							"15 00 44"		//vibrato depth
+						]
 
 let stompFxIdTemp = {};	
 const stompFxId = {        //the name of the fx in the correct order, the hex identifier as value from above
@@ -903,19 +945,19 @@ const fxControlsKnobSetup = {
 };	
 //depending wheter the values are strings or numbers work with it differently -> when numbers interpolate when in between, ortherwise not
 const parsedStr = {
-	"15 00 47": [0.0,0.0,0.1,0.1,0.2,0.2,0.3,0.3,0.4,0.4,0.5,0.5,0.6,0.6,0.7,0.7,0.8,0.8,0.9,0.9,1.0,1.0,1.1,1.1,1.2,   //25
+	[stompFxSpecialKeys[0]]: [0.0,0.0,0.1,0.1,0.2,0.2,0.3,0.3,0.4,0.4,0.5,0.5,0.6,0.6,0.7,0.7,0.8,0.8,0.9,0.9,1.0,1.0,1.1,1.1,1.2,   //25
 		1.2,1.3,1.3,1.4,1.4,1.5,1.5,1.6,1.7,1.8,1.8,1.9,2.0,2.0,2.1,2.2,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,2.9,     //25
 		3.0,3.1,3.2,3.3,3.5,3.6,3.7,3.8,4.0,4.1,4.3,4.4,4.6,4.8,4.9,5.1,5.3,5.5,5.7,5.9,6.1,6.3,6.6,6.8,7.1,     //25
 		7.3,7.6,7.9,8.2,8.4,8.7,9.0,9.4,9.8,10.1,10.5,10.9,11.2,11.6,12.0,12.5,13.0,13.5,14.0,14.4,14.9,15.4,16.0,16.6,17.3,  //25
 		17.9,18.5,19.2,19.9,20.5,21.2,22.1,23.0,23.9,24.7,25.6,26.5,27.4,28.2,29.4,30.5,31.7,32.9,34.1,35.2,36.4,37.5,39.1,40.7,42.2, //
 		43.9,45.3,46.4,48.4,50.0],
-	"3a 01 02": [-50.0,-46.9,-43.8,-40.7,-37.6,-35.2,-32.9,-30.6,-28.3,-26.5,-24.7,-23.0,-21.2,-19.9,-18.6,-17.3,-16.0,-15.0,-14.0,
+	[stompFxSpecialKeys[1]]: [-50.0,-46.9,-43.8,-40.7,-37.6,-35.2,-32.9,-30.6,-28.3,-26.5,-24.7,-23.0,-21.2,-19.9,-18.6,-17.3,-16.0,-15.0,-14.0,
 			-13.0,-12.0,-11.2,-10.5,-9.8,-9.0,-8.4,-7.9,-7.3,-6.8,-6.3,-5.9,-5.5,-5.1,-4.8,-4.5,-4.2,-3.8,-3.6,-3.3,-3.1,
 			-2.9,-2.7,-2.5,-2.3,-2.2,-2.0,-1.9,-1.8,-1.6,-1.5,-1.4,-1.3,-1.2,-1.1,-1.0,-0.9,-0.8,-0.7,-0.6,-0.5,-0.4,-0.3,
 			-0.2,-0.2,-0.1,0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.8,1.9,2.0,2.2,2.3,2.5,2.7,
 			2.9,3.1,3.3,3.6,3.8,4.1,4.4,4.8,5.1,5.5,5.9,6.3,6.8,7.3,7.9,8.4,9.0,9.8,10.5,11.2,12.0,13.0,14.0,14.9,16.0,17.3,
 			18.6,19.9,21.2,23.0,24.7,26.5,28.2,30.6,32.9,35.2,37.6,40.7,43.8,46.9,50.0],
-	"14 00 46": ["(1/2) _ _","(1/2) _ _ _","1/2 (_) _ _","1/2 (_) _ _","1/2 _ (_) _ _","1/2 _ (_) _ _","_ _ (_) _ 1/4dot","_ _ (_) _ 1/4dot","_ _ (_) 1/4dot _","_ _ (_) 1/4dot _",
+	[stompFxSpecialKeys[2]]: ["(1/2) _ _","(1/2) _ _ _","1/2 (_) _ _","1/2 (_) _ _","1/2 _ (_) _ _","1/2 _ (_) _ _","_ _ (_) _ 1/4dot","_ _ (_) _ 1/4dot","_ _ (_) 1/4dot _","_ _ (_) 1/4dot _",
 				"_ _ (1/4dot) _ 1/2trip","_ _ (1/4dot) _ 1/2trip","_ 1/4dot (_) 1/2trip _","_ 1/4dot (_) 1/2trip _","1/4dot _ (1/2trip) _ _","1/4dot _ (1/2trip) _ _","_ 1/2trip (_) _ _","_ 1/2trip (_) _ _",
 				"1/2trip _ (_) _ _","1/2trip _ (_) _ _","_ _ (_) _ 1/4","_ _ (_) _ 1/4","_ _ (_) 1/4 _","_ _ (_) 1/4 _","_ _(1/4) _ _","_ _(1/4) _ _","_ 1/4 (_) _ _","_ 1/4 (_) _ _","1/4 _ (_) _ _","1/4 _ (_) _ _",
 				"_ _ (_) _ 1/8dot","_ _ (_) _ 1/8dot","_ _ (_) 1/8dot _","_ _ (_) 1/8dot _","_ _ (1/8dot) _ 1/4trip","_ _ (1/8dot) _ 1/4trip","_ 1/8dot (_) 1/4trip _","_ 1/8dot (_) 1/4trip _",
@@ -928,7 +970,7 @@ const parsedStr = {
 				"_ _ (1/32) _ _","_ _ (1/32) _ _","_ 1/32 (_) _ _","_ 1/32 (_) _ _","1/32 _ (_) _ _","1/32 _ (_) _ _","_ _ (_) _ 1/64dot","_ _ (_) _ 1/64dot","_ _ (_) 1/64dot _","_ _ (_) 1/64dot _","_ _ (1/64dot) _ 1/32trip","_ _ (1/64dot) _ 1/32trip",
 				"_ 1/64dot (_) 1/32trip _","_ 1/64dot (_) 1/32trip _","1/64dot _ (1/32trip) _ _","1/64dot _ (1/32trip) _ _","_ 1/32trip (_) _ _","_ 1/32trip (_) _ _","1/32trip _ (_) _ _","1/32trip _ (_) _ _","_ _ (_) _ 1/64","_ _ (_) _ 1/64",
 				"_ _ (_) 1/64 _","_ _ (_) 1/64 _","_ _ (1/64) _ _","_ _ (1/64) _ _","_ 1/64 (_) _ _","_ 1/64 (_) _ _","1/64 _ (_) _ _","1/64 _ (_) _ _","1/64_ _ (_) _","1/64_ _ (_) _","1/64 _ _ (_)"],
-	"14 00 59": ["min 32.0 Bars","30.2 Bars","28.6 Bars","27.0 Bars","25.4 Bars","24.0 Bars","22.6 Bars","21.4 Bars","20.2 Bars","19.1 Bars","18.0 Bars",
+	[stompFxSpecialKeys[3]]: ["min 32.0 Bars","30.2 Bars","28.6 Bars","27.0 Bars","25.4 Bars","24.0 Bars","22.6 Bars","21.4 Bars","20.2 Bars","19.1 Bars","18.0 Bars",
 			"17.0 Bars","16.0 Bars","15.1 Bars","14.3 Bars","13.5 Bars","12.7 Bars","12.0 Bars","11.3 Bars","10.7 Bars","10.1 Bars","9.5 Bars","9.0 Bars",
 			"8.5 Bars","8.0 Bars","7.6 Bars","7.1 Bars","6.7 Bars","6.3 Bars","6.0 Bars","5.7 Bars","5.3 Bars","5.0 Bars","4.8 Bars","4.5 Bars","4.2 Bars",
 			"4.0 Bars","3.8 Bars","3.6 Bars","3.4 Bars","3.2 Bars","3.0 Bars","2.8 Bars","2.7 Bars","2.5 Bars","2.4 Bars","2.2 Bars","2.1 Bars","_ _ (2/1) _ _",
@@ -941,31 +983,31 @@ const parsedStr = {
 			"_ 1/16dot (_) 1/8trip _","1/16dot _ (1/8trip) _ _","_ 1/8trip (_) _ _","1/8trip _ (_) _ _","_ _ (_) _ 1/16","_ _ (_) 1/16 _","_ _ (1/16) _ _","_ 1/16 (_) _ _","1/16 _ (_) _ _",
 			"_ _ (_) _ 1/32dot","_ _ (_) 1/32dot _","_ _ (1/32dot) _ 1/16trip","_ 1/32dot (_) 1/16trip _","1/32dot _ (1/16trip) _ _","_ 1/16trip (_) _ _","1/16trip _ (_) _ _","_ _ (_) _ 1/32",
 			"_ _ (_) 1/32 _","_ _ (1/32) _ _","_ 1/32 (_) _ _","1/32 _ (_) _ _","_ _ (_) _ 1/64dot","_ _ (_) 1/64dot _","_ _ (1/64dot) _ 1/32trip","_ 1/64dot (_) 1/32trip _","_ (1/32trip)"],		
-	"5d 01 41": [0.200,0.250,0.300,0.350,0.400,0.420,0.450,0.470,0.500,	0.520,0.540,0.560,0.580,0.600,0.620,0.640,0.660,0.680,0.700,0.720,0.740,0.760,0.780,0.800,0.820,
+	[stompFxSpecialKeys[4]]: [0.200,0.250,0.300,0.350,0.400,0.420,0.450,0.470,0.500,	0.520,0.540,0.560,0.580,0.600,0.620,0.640,0.660,0.680,0.700,0.720,0.740,0.760,0.780,0.800,0.820,
 				0.840,0.870,0.890,0.910,0.930,0.950,0.970,0.990,1.020,1.040,1.060,1.090,1.110,1.130,1.160,1.180,1.210,1.240,1.260,1.290,1.320,1.350,1.370,1.400,1.430,1.460,
 				1.500,1.530,1.560,1.590,1.630,1.660,1.700,1.740,1.770,1.810,1.850,1.890,1.940,1.980,2.020,2.070,2.120,2.170,2.220,2.270,2.320,2.380,2.430,2.500,2.560,2.620,
 				2.690,2.760,2.830,2.900,2.980,3.070,3.150,3.230,3.330,3.430,3.530,3.630,3.740,3.860,3.980,4.110,4.240,4.390,4.550,4.700,4.870,5.060,5.260,5.460,5.670,5.930,
 				6.200,6.460,6.740,7.110,7.480,7.850,8.240,8.790,9.340,9.900,10.490,11.410,12.330,13.250,14.240,16.080,17.910,19.750,21.780,27.290,32.790,38.290,44.000,57.970,
 				71.940,85.920,100.00],
 	//echo reverb decay time
-	"5d 01 34": [0.10,0.12,0.15,0.17,0.20,0.21,0.22,0.24,0.25,0.26,0.27,0.28,0.29,0.30,0.31,0.32,0.33,0.34,0.35,0.36,0.37,0.38,0.39,0.40,0.41,0.42,0.43,0.44,0.45,0.46,
+	[stompFxSpecialKeys[5]]: [0.10,0.12,0.15,0.17,0.20,0.21,0.22,0.24,0.25,0.26,0.27,0.28,0.29,0.30,0.31,0.32,0.33,0.34,0.35,0.36,0.37,0.38,0.39,0.40,0.41,0.42,0.43,0.44,0.45,0.46,
 				0.47,0.49,0.50,0.51,0.52,0.53,0.54,0.56,0.57,0.58,0.59,0.61,0.62,0.63,0.64,0.66,0.67,0.69,0.70,0.72,0.73,0.75,0.76,0.78,0.80,0.81,0.83,0.85,0.87,0.89,
 				0.91,0.93,0.95,0.97,0.99,1.01,1.04,1.06,1.08,1.11,1.13,1.16,1.19,1.22,1.25,1.28,1.31,1.34,1.38,1.42,1.45,1.49,1.53,1.58,1.62,1.66,1.71,1.76,1.81,1.87,
 				1.93,1.99,2.05,2.12,2.20,2.27,2.35,2.43,2.53,2.63,2.73,2.84,2.97,3.10,3.23,3.37,3.56,3.74,3.92,4.12,4.40,4.67,4.95,5.24,5.70,6.16,6.62,7.12,8.04,8.96,
 				9.87,10.89,13.64,16.40,19.15,22.00,28.99,35.97,42.96,50.00],
-	"5d 01 35": [0.400,0.500,0.600,0.700,0.800,0.850,0.900,0.950,1.000,1.040,1.080,1.120,1.170,1.210,1.250,1.290,1.330,1.370,1.410,1.450,1.490,1.530,1.570,1.610,1.650,
+	[stompFxSpecialKeys[6]]: [0.400,0.500,0.600,0.700,0.800,0.850,0.900,0.950,1.000,1.040,1.080,1.120,1.170,1.210,1.250,1.290,1.330,1.370,1.410,1.450,1.490,1.530,1.570,1.610,1.650,
 				1.690,1.730,1.770,1.810,1.860,1.900,1.950,1.990,2.030,2.080,2.130,2.170,2.220,2.270,2.320,2.370,2.420,2.470,2.530,2.580,2.630,2.690,2.750,2.810,2.870,
 				2.930,2.990,3.050,3.120,3.190,3.260,3.320,3.400,3.470,3.550,3.620,3.700,3.790,3.870,3.960,4.050,4.140,4.240,4.330,4.430,4.540,4.650,4.760,4.870,4.990,
 				5.120,5.240,5.380,5.520,5.660,5.810,5.960,6.130,6.300,6.470,6.650,6.850,7.060,7.260,7.470,7.720,7.970,8.220,8.480,8.790,9.100,9.400,9.730,10.130,10.520,	
 				10.920,11.340,11.870,12.400,12.920,13.490,14.220,14.960,15.690,16.480,17.590,18.690,19.790,20.980,22.820,24.660,26.490,28.490,32.160,35.830,39.490,43.570,
 				54.580,65.580,76.590,88.000,115.940,143.890,171.830,200.000],
-	"47 01 35": [0.12,0.12,0.13,0.13,0.14,0.14,0.15,0.15,0.16,0.16,0.17,0.17,0.17,0.18,0.18,0.19,0.19,0.20,0.20,0.21,0.21,0.22,0.23,0.23,0.24,0.25,0.25,0.26,0.27,0.27,
+	[stompFxSpecialKeys[7]]: [0.12,0.12,0.13,0.13,0.14,0.14,0.15,0.15,0.16,0.16,0.17,0.17,0.17,0.18,0.18,0.19,0.19,0.20,0.20,0.21,0.21,0.22,0.23,0.23,0.24,0.25,0.25,0.26,0.27,0.27,
 				0.28,0.29,0.30,0.31,0.31,0.32,0.33,0.34,0.35,0.35,0.37,0.38,0.38,0.40,0.41,0.42,0.43,0.44,0.46,0.47,0.48,0.49,0.51,0.52,0.54,0.55,0.57,0.58,0.60,0.62,
 				0.63,0.65,0.67,0.68,0.70,0.72,0.74,0.76,0.78,0.80,0.82,0.85,0.87,0.89,0.92,0.94,0.96,0.99,1.02,1.05,1.08,1.11,1.14,1.17,1.20,1.23,1.26,1.30,1.33,1.37,
 				1.40,1.44,1.48,1.52,1.56,1.61,1.65,1.69,1.74,1.79,1.84,1.89,1.94,2.00,2.05,2.11,2.16,2.22,2.28,2.34,2.41,2.48,2.55,2.61,2.68,2.76,2.83,2.90,2.98,3.07,
 				3.15,3.23,3.33,3.42,3.51,3.60,3.70,3.80,3.90,4.00],
 	//formant reverb high cut			
-	"44 01 36": [329.6,339.2,349.1,359.2,369.7,380.4,391.5,402.9,414.6,426.6,439.0,451.8,464.9,478.4,492.3,506.7,521.4,536.5,552.1,568.2,584.7,601.7,619.2,637.2,655.7,
+	[stompFxSpecialKeys[8]]: [329.6,339.2,349.1,359.2,369.7,380.4,391.5,402.9,414.6,426.6,439.0,451.8,464.9,478.4,492.3,506.7,521.4,536.5,552.1,568.2,584.7,601.7,619.2,637.2,655.7,
 				674.8,694.4,714.6,735.4,756.8,778.8,801.4,824.7,848.7,873.3,898.7,924.9,951.8,979.4,1007.9,1037.2,1067.3,1098.4,1130.3,1163.2,1197.0,1231.8,1267.6,1304.4,
 				1342.3,1381.4,1421.5,1462.9,1505.4,1549.1,1594.2,1640.5,1688.2,1737.3,1787.8,1839.8,1893.2,1948.3,2004.9,2063.2,2123.2,2184.9,2248.4,2313.8,2381.1,2450.3,
 				2521.5,2594.8,2670.2,2747.8,2827.7,2909.9,2994.5,3081.6,3171.1,3263.3,3358.2,3455.8,3556.3,3659.6,3766.0,3875.5,3988.1,4104.1,4233.4,4346.1,4472.5,4602.5,
@@ -976,46 +1018,46 @@ const parsedStr = {
 //get the values from parsedStr, avoid dupl defintions
 const notRenderableStr = {
 	//Micro pitch(detune) & vibrato(depth)
-	"15 00 47": parsedStr['15 00 47'],
-	"15 00 44": parsedStr['15 00 47'],	   
+	[stompFxSpecialKeys[0]]: parsedStr[stompFxSpecialKeys[0]],
+	[stompFxSpecialKeys[25]]: parsedStr[stompFxSpecialKeys[0]],	   
 	//chromatic pitch Detune		   
-	"3a 01 02": parsedStr['3a 01 02'],
-	"3a 01 16": parsedStr['3a 01 02'],
-	"3a 01 17": parsedStr['3a 01 02'],			
+	[stompFxSpecialKeys[1]]: parsedStr[stompFxSpecialKeys[1]],
+	[stompFxSpecialKeys[24]]: parsedStr[stompFxSpecialKeys[1]],
+	[stompFxSpecialKeys[23]]: parsedStr[stompFxSpecialKeys[1]],			
 	//dual crystal pitch detune
-	"3a 01 0b": parsedStr['3a 01 02'],	
+	[stompFxSpecialKeys[22]]: parsedStr[stompFxSpecialKeys[1]],	
 	//dual loop pitch detune
-	"3a 01 0c": parsedStr['3a 01 02'],	
+	[stompFxSpecialKeys[21]]: parsedStr[stompFxSpecialKeys[1]],	
 	//melody chormatic pitch detune
-	"3a 01 22": parsedStr['3a 01 02'],
+	[stompFxSpecialKeys[20]]: parsedStr[stompFxSpecialKeys[1]],
 	//quad chormatic pitch detune
-	"3a 01 25": parsedStr['3a 01 02'],																					   
-	"14 00 46": parsedStr['14 00 46'],
+	[stompFxSpecialKeys[19]]: parsedStr[stompFxSpecialKeys[1]],																					   
+	[stompFxSpecialKeys[2]]: parsedStr[stompFxSpecialKeys[2]],
 	//phaser rate
-	"14 00 59": parsedStr['14 00 59'],		
+	[stompFxSpecialKeys[3]]: parsedStr[stompFxSpecialKeys[3]],		
 	
-	"14 00 51": parsedStr['14 00 59'],				 
+	[stompFxSpecialKeys[18]]: parsedStr[stompFxSpecialKeys[3]],				 
 	//phaser vibe rate
-	"14 00 52": parsedStr['14 00 59'],				 			  
-	"5d 01 41": parsedStr['5d 01 41'],
-	"5d 01 32": parsedStr['5d 01 41'],
-	"5d 01 33": parsedStr['5d 01 41'],	
-	"5d 01 31": parsedStr['5d 01 41'],
-	"5d 01 35": parsedStr['5d 01 41'],	
-	"5d 01 34": parsedStr['5d 01 34'],
-	"5d 01 35": parsedStr['5d 01 35'],
+	[stompFxSpecialKeys[17]]: parsedStr[stompFxSpecialKeys[3]],				 			  
+	[stompFxSpecialKeys[4]]: parsedStr[stompFxSpecialKeys[4]],
+	[stompFxSpecialKeys[16]]: parsedStr[stompFxSpecialKeys[4]],
+	[stompFxSpecialKeys[15]]: parsedStr[stompFxSpecialKeys[4]],	
+	[stompFxSpecialKeys[14]]: parsedStr[stompFxSpecialKeys[4]],
+	//"5d 01 35": parsedStr[stompFxSpecialKeys[4]],	
+	[stompFxSpecialKeys[5]]: parsedStr[stompFxSpecialKeys[5]],
+	[stompFxSpecialKeys[6]]: parsedStr[stompFxSpecialKeys[6]],
 	//fromant reverb decay time
-	"5d 01 36": parsedStr['5d 01 35'],
+	[stompFxSpecialKeys[13]]: parsedStr[stompFxSpecialKeys[6]],
 	//ionosphere reverb decay time
-	"5d 01 37": parsedStr['5d 01 35'],
+	[stompFxSpecialKeys[12]]: parsedStr[stompFxSpecialKeys[6]],
 	//cirrus reverb attack time
-	"47 01 35": parsedStr['47 01 35'],
+	[stompFxSpecialKeys[7]]: parsedStr[stompFxSpecialKeys[7]],
 	//formant reverb attack time
-	"47 01 36": parsedStr['47 01 35'],
+	[stompFxSpecialKeys[11]]: parsedStr[stompFxSpecialKeys[7]],
 	//ionosphere reverb attack time
-	"47 01 37": parsedStr['47 01 35'],
-	"44 01 36": parsedStr['44 01 36'],
-	"44 01 37": parsedStr['44 01 36']	
+	[stompFxSpecialKeys[10]]: parsedStr[stompFxSpecialKeys[7]],
+	[stompFxSpecialKeys[8]]: parsedStr[stompFxSpecialKeys[8]],
+	[stompFxSpecialKeys[9]]: parsedStr[stompFxSpecialKeys[8]]	
 	
 				//dual loop pitch (pitch detune) & melody chromatic (pitch detune) & quad chromatic (pitch detune)	& chromatic pitch (detune)	& dual crystal (pitch detune)   
 	//"32 3a": []		   
@@ -1106,18 +1148,16 @@ function updateStrInterface(splitSysex,id,stomp) {
 }	
 
 //update the parameter controls of the fx: labels, steps, range
-function stompsFxControls(stompId,fxHex,color){
+function stompsFxControls(stompId,fxHex){
 	j = 0;  // counter for steps, min and max
 	for(i = 0; i < maxFxControls; i ++) {
 		logItAll('stompsFxControls ',stompId,(fxIdentHex[fxHex].length / 2 ),fxHex,'','','','');
-	 //   if (i <  fxLabelControl[fxHex].length && fxHex !== '00 00') {      //set labels show the knobs
 	    if (i < (fxIdentHex[fxHex].length / 2 ) && fxHex !== '00 00') {
-			
 			receive('/FXKNOB_' + i + '/showFxControls',stompId,1);               //every label has a knob so show them 
 			receive('/FXKNOB_' + i + '/showFxControlsHtmlLabel', stompId , '<h6 style="text-align:center;"> ' + fxIdentHex[fxHex][i + (fxIdentHex[fxHex].length / 2 )] + ' </h6>');  //set html property of knob		
 	        receive('/FXKNOB_' + i + '/showFxControlsSteps',stompId,fxControlsKnobSetup[fxHex][j]);   												//set the number of steps of the correspomding control
 	        receive('/FXKNOB_' + i + '/showFxControlsRange',stompId,'{ "min": ' + fxControlsKnobSetup[fxHex][j + 1] + ',"max":' + fxControlsKnobSetup[fxHex][j + 2] + '}');  //set range of fx control, aka min and max
-	        send('midi', midiDeviceName, '/sysex',  'f0 00 20 33 02 7f 41 00 ' + getKeyByValue(fxStompIdent,stompId) + ' ' + fxIdentHex[fxHex][i] + ' f7');
+	        send('midi', midiDeviceName, '/sysex',  _sysReqSinPar + getKeyByValue(fxStompIdent,stompId) + ' ' + fxIdentHex[fxHex][i] + ' f7');
      	} else {                                       // hide the rest and default it
 	        receive('/FXKNOB_' + i + '/showFxControls',stompId,0);
             receive('/FXKNOB_' + i + '/showFxControlsHtmlLabel', stompId,'');
@@ -1129,8 +1169,9 @@ function stompsFxControls(stompId,fxHex,color){
 	}	
 }
 
+// not very elegant switch on /off main sections STOMPS, STACK, EFFECTS
 function evalSection(ident) {
-    if ((ident === '32' ) || (ident === '33') || (ident === '34') || (ident === '35')){  // not very elegant switch on /off main sections STOMPS, STACK, EFFECTS
+    if ((ident === '32' ) || (ident === '33') || (ident === '34') || (ident === '35')){  
         return '/rigSection1'; 			
 	} else if ((ident === '0a') || (ident === '0b' ) || (ident === '0c')) {
 	    return '/rigSection2';
@@ -1140,9 +1181,9 @@ function evalSection(ident) {
 			   
 }	
 
+//update positions show or hide gui objects -> settings "view options"
 function adjustView(view){
 	for(i = 0;i < viewObjDef[view].length; i++){
-		//console.log('button_x33 i ' + viewObjDef["LIVE"][i].id + '#' + viewObjDef["LIVE"][i].width);	
 		for (const[keyid,valueid] of Object.entries(viewObjDef[view][i]) ) {
 			if (keyid === 'id') tempId = valueid;
 			if (keyid !== 'id') receive('/' + tempId + '/show' + keyid, valueid);
@@ -1160,65 +1201,65 @@ function adjustView(view){
 
 }
 
-//on several points we update all visible controls by requesting several things
+//on several points we update all visible controls by requesting different things
 function requestRigInfo(view){
 	
 //save midi bandwith and just send the really needed one -> which can be seen on the main screen	
 	if (view === 'FULL'){
-		send('midi',midiDeviceName,'/sysex','f0 00 20 33 02 7f 41 00 04 40 f7');  //req single parameter stomps	
-    	send('midi',midiDeviceName,'/sysex','f0 00 20 33 02 7f 41 00 04 41 f7');  //req single parameter sttacks	
-    	send('midi',midiDeviceName,'/sysex','f0 00 20 33 02 7f 41 00 04 42 f7');  //req single parameter effects	
-		send('midi',midiDeviceName,'/sysex','f0 00 20 33 02 7f 41 00 0c 02 f7');  //req single parameter cab
-		send('midi',midiDeviceName,'/sysex','f0 00 20 33 02 7f 41 00 0b 02 f7');  //req single parameter eq
-		send('midi',midiDeviceName,'/sysex','f0 00 20 33 02 7f 41 00 0a 02 f7');  //req single parameter amp 	
+		send('midi',midiDeviceName,'/sysex', _sysReqSinPar + '04 40 f7');  //req single parameter stomps	
+    	send('midi',midiDeviceName,'/sysex', _sysReqSinPar + '04 41 f7');  //req single parameter sttacks	
+    	send('midi',midiDeviceName,'/sysex', _sysReqSinPar + '04 42 f7');  //req single parameter effects	
+		send('midi',midiDeviceName,'/sysex', _sysReqSinPar + '0c 02 f7');  //req single parameter cab
+		send('midi',midiDeviceName,'/sysex', _sysReqSinPar + '0b 02 f7');  //req single parameter eq
+		send('midi',midiDeviceName,'/sysex', _sysReqSinPar + '0a 02 f7');  //req single parameter amp 	
 	}	
-	send('midi',midiDeviceName,'/sysex','f0 00 20 33 02 7f 41 00 00 1f f7');  //req Tuner mode 	
+	send('midi',midiDeviceName,'/sysex', _sysReqSinPar + '00 1f f7');  //req Tuner mode 	
     	
 	//send('midi',midiDeviceName,'/sysex','f0 00 20 33 02 7f 47 00 7f 00 f7');  //req single parameter main out volume 	
-	//send('midi',midiDeviceName,'/sysex','f0 00 20 33 02 7f 41 00 7f 01 f7');  //req single parameter headphone out volume 	
-	//send('midi',midiDeviceName,'/sysex','f0 00 20 33 02 7f 41 00 7f 02 f7');  //req single parameter monitor out volume 	
-	//send('midi',midiDeviceName,'/sysex','f0 00 20 33 02 7f 41 00 7f 03 f7');  //req single parameter direct out volume 	
-	//send('midi',midiDeviceName,'/sysex','f0 00 20 33 02 7f 41 00 7f 04 f7');  //req single parameter spdif volume 	
+	//send('midi',midiDeviceName,'/sysex',_sysReqSinPar + '7f 01 f7');  //req single parameter headphone out volume 	
+	//send('midi',midiDeviceName,'/sysex',_sysReqSinPar + '7f 02 f7');  //req single parameter monitor out volume 	
+	//send('midi',midiDeviceName,'/sysex',_sysReqSinPar + '7f 03 f7');  //req single parameter direct out volume 	
+	//send('midi',midiDeviceName,'/sysex',_sysReqSinPar + '7f 04 f7');  //req single parameter spdif volume 	
 		
 	//send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 43 00 00 01 f7');   //req string for current rig name
 	if (view === 'FULL') {
-		send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 43 00 00 02 f7');   //req string for current author name			
-    	send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 43 00 00 10 f7');   //req string for amp description
+		send('midi', midiDeviceName, '/sysex', _sysReqStr + '00 02 f7');   //req string for current author name			
+    	send('midi', midiDeviceName, '/sysex', _sysReqStr + '00 10 f7');   //req string for amp description
 	}
-	send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 43 00 00 04 f7');   //req string for  profile info		
-	send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 42 00 09 00 f7');  //req multi parameter INPUT -> noise gate intensity, input clean sense, input distortion sense
-	send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 42 00 0b 00 f7');  //req multi parameter Equalizer
-	send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 41 00 0a 04 f7');  //req single parameter gain vol
-	send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 41 00 04 01 f7');  //req single parameter rig vol	
+	send('midi', midiDeviceName, '/sysex', _sysReqStr + '00 04 f7');   //req string for  profile info		
+	send('midi', midiDeviceName, '/sysex', _sysReqMultPar + '09 00 f7');  //req multi parameter INPUT -> noise gate intensity, input clean sense, input distortion sense
+	send('midi', midiDeviceName, '/sysex', _sysReqMultPar +'0b 00 f7');  //req multi parameter Equalizer
+	send('midi', midiDeviceName, '/sysex', _sysReqSinPar + '0a 04 f7');  //req single parameter gain vol
+	send('midi', midiDeviceName, '/sysex', _sysReqSinPar + '04 01 f7');  //req single parameter rig vol	
 	
 	
 	if (view === 'FULL') {	
-		send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 41 00 32 00 f7');  //req single parameter stomp A type
-		send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 41 00 32 03 f7');  //req single parameter stomp A on / off 	
+		send('midi', midiDeviceName, '/sysex', _sysReqSinPar + '32 00 f7');  //req single parameter stomp A type
+		send('midi', midiDeviceName, '/sysex', _sysReqSinPar + '32 03 f7');  //req single parameter stomp A on / off 	
 	
-		send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 41 00 33 00 f7');  //req single parameter stomp B type 
-		send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 41 00 33 03 f7');  //req single parameter stomp B on / off 
-		send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 41 00 34 00 f7');  //req single parameter stomp C type 
-		send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 41 00 34 03 f7');  //req single parameter stomp C on / off 
-		send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 41 00 35 00 f7');  //req single parameter stomp D type 
-		send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 41 00 35 03 f7');  //req single parameter stomp D on / off 
+		send('midi', midiDeviceName, '/sysex', _sysReqSinPar + '33 00 f7');  //req single parameter stomp B type 
+		send('midi', midiDeviceName, '/sysex', _sysReqSinPar + '33 03 f7');  //req single parameter stomp B on / off 
+		send('midi', midiDeviceName, '/sysex', _sysReqSinPar + '34 00 f7');  //req single parameter stomp C type 
+		send('midi', midiDeviceName, '/sysex', _sysReqSinPar + '34 03 f7');  //req single parameter stomp C on / off 
+		send('midi', midiDeviceName, '/sysex', _sysReqSinPar + '35 00 f7');  //req single parameter stomp D type 
+		send('midi', midiDeviceName, '/sysex', _sysReqSinPar + '35 03 f7');  //req single parameter stomp D on / off 
 	
-		send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 41 00 38 00 f7');  //req single parameter stomp X type 
-		send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 41 00 38 03 f7');  //req single parameter stomp X on / off 
+		send('midi', midiDeviceName, '/sysex', _sysReqSinPar + '38 00 f7');  //req single parameter stomp X type 
+		send('midi', midiDeviceName, '/sysex', _sysReqSinPar + '38 03 f7');  //req single parameter stomp X on / off 
 	
-		send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 41 00 3a 00 f7');  //req single parameter stomp MOD type
-		send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 41 00 3a 03 f7');  //req single parameter stomp MOD on / off 
-    	send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 41 00 3c 00 f7');  //req single parameter stomp Delay type
-		send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 41 00 3c 03 f7');  //req single parameter stomp Delay on / off  	
-		send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 41 00 3d 00 f7');  //req single parameter stomp Reverb type
-		send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 41 00 3d 03 f7');  //req single parameter stomp Reverb on / off 	
+		send('midi', midiDeviceName, '/sysex', _sysReqSinPar + '3a 00 f7');  //req single parameter stomp MOD type
+		send('midi', midiDeviceName, '/sysex', _sysReqSinPar + '3a 03 f7');  //req single parameter stomp MOD on / off 
+    	send('midi', midiDeviceName, '/sysex', _sysReqSinPar + '3c 00 f7');  //req single parameter stomp Delay type
+		send('midi', midiDeviceName, '/sysex', _sysReqSinPar + '3c 03 f7');  //req single parameter stomp Delay on / off  	
+		send('midi', midiDeviceName, '/sysex', _sysReqSinPar + '3d 00 f7');  //req single parameter stomp Reverb type
+		send('midi', midiDeviceName, '/sysex', _sysReqSinPar + '3d 03 f7');  //req single parameter stomp Reverb on / off 	
 	}	
 
 }	
 
 //helper function for incoming messages, takes care of several cases
-function inFilterHelper(inValue,hostType){
-	let updateKnobValKemper,valSplitMulti;  //infilter vars
+function inFilterHelper(inValue){
+	let updateKnobValKemper;  //infilter vars
 	textSplitSysex = inValue.split(" ");
 	updateId = '';
 	logItAll('infilterhelper begin ',inValue,stompIdent,textSplitSysex[9],'','','','');
@@ -1254,7 +1295,7 @@ function inFilterHelper(inValue,hostType){
 
 	    } else if ( ((adrIdToKemp[textSplitSysex[8] + ' ' + textSplitSysex[9]]) === '/kempRigVol') )  {        // if the range of the displayed value is not good calculateable just request a string for it  global knobs 
 			receive(sendIp,serverPort,adrIdToKemp[textSplitSysex[8] + ' ' + textSplitSysex[9]] , knobVal);
-            updateKnobValKemper = 'f0 00 20 33 02 7f 7c 00 ' + textSplitSysex[8] + ' ' + textSplitSysex[9] + ' ' + textSplitSysex[10] + ' ' + textSplitSysex[11] + ' ' + textSplitSysex[12];	//update the knob on the interface		   
+            updateKnobValKemper = _sysReqRendStr + textSplitSysex[8] + ' ' + textSplitSysex[9] + ' ' + textSplitSysex[10] + ' ' + textSplitSysex[11] + ' ' + textSplitSysex[12];	//update the knob on the interface		   
   		    send('midi', midiDeviceName, '/sysex', updateKnobValKemper); //update rig volume, etc. as this is somekind of nonlinear calc just ask per sysex for the string 
 		//}  else if (typeof reqStrValue[stompFxIdent] === 'object') { // incoming request strings for the fx knobs
 		} else if ((adrIdToKemp[textSplitSysex[8] + ' ' + textSplitSysex[9]]).substring(0,11) === '/rigSection') {                 // special turn on and off stomps, stacks effects
@@ -1272,10 +1313,8 @@ function inFilterHelper(inValue,hostType){
     
 		}	
 		if ((typeof reqStrValue[textSplitSysex[9] + ' ' + stompFxIdent] === 'object' ) ) {   // in this fx is at least one knob that needs string rep. value, fxhex and stomp fx hex must exist
-			if (reqStrValue[textSplitSysex[9] + ' ' + stompFxIdent] === '14 00 46') {		
-			}	
 			logItAll('infilterhelper begin reqstrvalue ',reqStrValue[textSplitSysex[9] + ' ' + stompFxIdent],stompFxIdent,textSplitSysex[9],'','','','');
-			updateKnobValKemper = 'f0 00 20 33 02 7f 7c 00 ' + textSplitSysex[8] + ' ' + textSplitSysex[9] + ' ' + textSplitSysex[10] + ' ' + textSplitSysex[11] + ' ' + textSplitSysex[12];
+			updateKnobValKemper = _sysReqRendStr + textSplitSysex[8] + ' ' + textSplitSysex[9] + ' ' + textSplitSysex[10] + ' ' + textSplitSysex[11] + ' ' + textSplitSysex[12];
 		    send('midi', midiDeviceName, '/sysex', updateKnobValKemper);	  
 		}	  
 	 	
@@ -1293,8 +1332,7 @@ function inFilterHelper(inValue,hostType){
 			updateStrInterface(inValue.split(" ").slice(9).map(x=>parseInt(x,16)),updateId,0);
 		}		
 		 
-	} else {
-	}	
+	} 
 }
 
 function outFilterHelper(addressOut,argsValue){
@@ -1302,9 +1340,10 @@ function outFilterHelper(addressOut,argsValue){
 	updateId = '';	
    
     if (typeof (getKeyByValue(adrIdToKemp,addressOut)) !== 'undefined') {updateId = getKeyByValue(adrIdToKemp,addressOut);} 
- 	volKnobUpdateKemper =  'f0 00 20 33 02 7f 01 00 ' + updateId + (argsValue & 0x7f).toString(16).padStart(2,'0') + ' ' + ((argsValue >> 7) & 0x7f).toString(16).padStart(2,'0') + ' f7';		
+ 	volKnobUpdateKemper =  _sysChgSinPar + updateId + (argsValue & 0x7f).toString(16).padStart(2,'0') + ' ' + ((argsValue >> 7) & 0x7f).toString(16).padStart(2,'0') + ' f7';		
 	if (addressOut.substring(0,9) === '/kempStomp') {
-	   volKnobUpdateKemper =  'f0 00 20 33 00 00 01 00 ' + updateId + (argsValue & 0x7f).toString(16).padStart(2,'0') + ' ' + ((argsValue >> 7) & 0x7f).toString(16).padStart(2,'0') + ' f7';     //on and off effects stomps, stacks, effects 
+	   //volKnobUpdateKemper =  'f0 00 20 33 00 00 01 00 ' + updateId + (argsValue & 0x7f).toString(16).padStart(2,'0') + ' ' + ((argsValue >> 7) & 0x7f).toString(16).padStart(2,'0') + ' f7';     //on and off effects stomps, stacks, effects 
+	   volKnobUpdateKemper =  _sysChgSinPar + updateId + (argsValue & 0x7f).toString(16).padStart(2,'0') + ' ' + ((argsValue >> 7) & 0x7f).toString(16).padStart(2,'0') + ' f7';     //on and off effects stomps, stacks, effects 
 	} else if (updateId !== '' ){
 	  receive(sendIp,serverPort,addressOut + 'Text', scaleValue(argsValue,[fxControlsKnobSetup[updateId][1],fxControlsKnobSetup[updateId][2]],[fxControlsKnobSetup[updateId][4],fxControlsKnobSetup[updateId][5]]));             
     }		
@@ -1315,7 +1354,7 @@ function outFilterHelper(addressOut,argsValue){
 		logItAll('outfilterhelper rigvolknob',volKnobUpdateKemper,argsValue,'','','','','');
     	send('midi',midiDeviceName,'/sysex',volKnobUpdateKemper);
         if (addressOut === '/kempRigVol') { 
-		   volKnobStringUpdate = 'f0 00 20 33 02 7f 7c 00 ' + updateId + ((argsValue >> 7) & 0x7f).toString(16).padStart(2,'0') + ' ' + (argsValue & 0x7f).toString(16).padStart(2,'0') + ' f7';
+		   volKnobStringUpdate = _sysReqRendStr + updateId + ((argsValue >> 7) & 0x7f).toString(16).padStart(2,'0') + ' ' + (argsValue & 0x7f).toString(16).padStart(2,'0') + ' f7';
 		   send('midi',midiDeviceName,'/sysex', volKnobStringUpdate);          
 	   }   		
 	}	
@@ -1324,7 +1363,7 @@ function outFilterHelper(addressOut,argsValue){
 
 
 //used for scanning rigs or performance, a recursive function which request and catches these req by incoming sysex values		
-function timeOut(id,opType) {
+function scanRigsOrPerfs(id,opType) {
 	
 	setTimeout(function () {
 		logItAll('scan started ',tempTimeout,initRigs,id,opType,'','','');
@@ -1355,11 +1394,11 @@ function timeOut(id,opType) {
 			}  
 			if ( (opType === 'PERFORM') &&  (((tempTimeout + pgOffsetPerf[bankNr])  === 2) || ( ((tempTimeout - 2) + pgOffsetPerf[bankNr]) % 5 === 0 )) ) {  // after the performance name has been requested, request the rig names of the slots
 				logItAll('perfomance changed ',tempTimeout,'','','','','','');
-				send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 47 00 00 00 01 00 01 f7');  // extended string request slot 1 name
-				send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 47 00 00 00 01 00 02 f7');  // extended string request slot 1 name
-				send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 47 00 00 00 01 00 03 f7');  // extended string request slot 1 name
-				send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 47 00 00 00 01 00 04 f7');  // extended string request slot 1 name
-				send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 47 00 00 00 01 00 05 f7');  // extended string request slot 1 name
+				send('midi', midiDeviceName, '/sysex', _sysReqExtStr + '00 00 01 00 01 f7');  // extended string request slot 1 name
+				send('midi', midiDeviceName, '/sysex', _sysReqExtStr + '00 00 01 00 02 f7');  // extended string request slot 1 name
+				send('midi', midiDeviceName, '/sysex', _sysReqExtStr + '00 00 01 00 03 f7');  // extended string request slot 1 name
+				send('midi', midiDeviceName, '/sysex', _sysReqExtStr + '00 00 01 00 04 f7');  // extended string request slot 1 name
+				send('midi', midiDeviceName, '/sysex', _sysReqExtStr + '00 00 01 00 05 f7');  // extended string request slot 1 name
 			}
 			tempTimeout++;
 			if (opType === 'BROWSE') {receive(sendIp,serverPort,'/progressScan',tempTimeout);}
@@ -1370,17 +1409,16 @@ function timeOut(id,opType) {
             if ( (opType === 'PERFORM') &&  (((tempTimeout + pgOffsetPerf[bankNr])  === 1) || ( ((tempTimeout - 1) + pgOffsetPerf[bankNr]) % 5 === 0 )) ) {  // after the first slot of a performance is set, request the performance name
 				perfIndex++; 
 				receive(sendIp,serverPort,'/progressScan',perfIndex);   				//update progress bar per performance 1 - 125
-				send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 47 00 00 00 01 00 00 f7');  // extended string request performance name
+				send('midi', midiDeviceName, '/sysex', _sysReqExtStr + '00 00 01 00 00 f7');  // extended string request performance name
 			}		
-			if (opType === 'BROWSE') { send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 43 00 00 01 f7');}
+			if (opType === 'BROWSE') { send('midi', midiDeviceName, '/sysex', _sysReqStr + _sysRigName + ' f7');}
 			if ( (id === 255  ) && (opType === 'PERFORM') )  {
 				id = 0;	
 				bankNr++;
 				send('midi', midiDeviceName, '/control', 1,32, bankNr );	
 			} 
 				
-			if ( (id === 255  ) && (opType === 'BROWSE') )  {            //when scanning is finished we write the rigslist object as file, this file will be read on next time start at init function 
-			//if ( (id === 15  ) && (opType === 'BROWSE') )  {   
+			if ( (id === 255  ) && (opType === 'BROWSE') )  {            //when scanning is finished we write the rigslist object as file, this file will be read on next time start at init function  
 				receive('/progressScan/showprogressScan',0);
 				logItAll('after rigscan rignameslist  ',rigsList,countRigs,'','','','','');
 				initRigs = -1;
@@ -1401,7 +1439,7 @@ function timeOut(id,opType) {
 			}	
 		}
 		id++;
-		timeOut(id,opType);
+		scanRigsOrPerfs(id,opType);
 			
 	}, 750);	//750 ms for each cycle
 			
@@ -1510,7 +1548,7 @@ function getPartObjByKeySearch(partKeyStr,wholeObj){
 
 function logItAll(text1,value1,text2,value2,text3,value3,text4,value4) {
 	
- //   console.log(text1 + '#' + value2 + '##' + text2 + '#' + value2 + '##' + text3 + '#' + value3 + '##' + text4 + '#' + value4);
+ //   console.log(text1 + '#' + value1 + '##' + text2 + '#' + value2 + '##' + text3 + '#' + value3 + '##' + text4 + '#' + value4);
 }	
 
 //make the object with all fx categories e.g. wah / dist ,...
@@ -1575,8 +1613,7 @@ function updateNotRenderableControls(lsbFxHex, hexId10,hexId11,typ) {
 
 	
 		//warning just working for msb hex of not renderable values which are no number -> fxIdenthex needs proper value otherwise it throws a midi error tbf.
-		//send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 01 00 ' +  getKeyByValue(fxStompIdent,stompIdent) + ' ' + fxIdentHex[stompFxIdent][lsbFxHex] +  (wholeNr & 0x7f).toString(16).padStart(2,'0') + ' 00' + ' f7'); //update values on kemper
-		if (typ === 'out') send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 01 00 ' + getKeyByValue(fxStompIdent,stompIdent) + ' ' +  fxIdentHex[stompFxIdent][hexId11] + ' ' +  (wholeNr & 0x7f).toString(16).padStart(2,'0') + ' 00 f7'); //update values on kemper
+		if (typ === 'out') send('midi', midiDeviceName, '/sysex', _sysChgSinPar + getKeyByValue(fxStompIdent,stompIdent) + ' ' +  fxIdentHex[stompFxIdent][hexId11] + ' ' +  (wholeNr & 0x7f).toString(16).padStart(2,'0') + ' 00 f7'); //update values on kemper
 				
 		//}
 		
@@ -1598,9 +1635,9 @@ function updateNotRenderableControls(lsbFxHex, hexId10,hexId11,typ) {
 	if (typ === 'out') {			//update kemper when touching the gui deal with msb hex value, because we default the most controls to 128 steps
 		
 		if (wholeNr === (notRenderableStr[lsbFxHex + ' ' + stompFxIdent].length - 1)) {
-			send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 01 00 ' + getKeyByValue(fxStompIdent,stompIdent) + ' ' +  fxIdentHex[stompFxIdent][hexId11] + ' 7f 7f f7'); //the final value needs special treatment
+			send('midi', midiDeviceName, '/sysex', _sysChgSinPar + getKeyByValue(fxStompIdent,stompIdent) + ' ' +  fxIdentHex[stompFxIdent][hexId11] + ' 7f 7f f7'); //the final value needs special treatment
 		} else {
-			send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 01 00 ' + getKeyByValue(fxStompIdent,stompIdent) + ' ' +  fxIdentHex[stompFxIdent][hexId11] + ' ' +  (wholeNr & 0x7f).toString(16).padStart(2,'0') + ' 00 f7'); //update values on kemper
+			send('midi', midiDeviceName, '/sysex', _sysChgSinPar + getKeyByValue(fxStompIdent,stompIdent) + ' ' +  fxIdentHex[stompFxIdent][hexId11] + ' ' +  (wholeNr & 0x7f).toString(16).padStart(2,'0') + ' 00 f7'); //update values on kemper
 		}
 
 		return;  //just update the knob when controlled on the kemper
@@ -1649,7 +1686,7 @@ module.exports = {
             
         app.on('sessionOpened',(data,client) => {
 			adjustView(currView);
-            notRenderableStr['15 00 44'] = notRenderableStr['15 00 47'];
+            notRenderableStr[stompFxSpecialKeys[25]] = notRenderableStr[stompFxSpecialKeys[0]];
 
             receive(sendIp,serverPort,'/progressScan', 0 );
             showCurrSelection(rigsList);   //at startup browse mode is default		
@@ -1689,7 +1726,7 @@ module.exports = {
 			if (address === '/rigBrowseSelRight'){ 	send('midi', midiDeviceName, '/control', 1,48, 0 );	} 
 			if (address === '/rigBrowseSelLeft'){	send('midi', midiDeviceName, '/control', 1,49, 0 );	}	
 			//requestRigInfo(); 
-			setTimeout(function () { send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 43 00 00 01 f7');  },300 );  //request rigname, when this is received in infilterhelper request the other parameters of the rig
+			setTimeout(function () { send('midi', midiDeviceName, '/sysex', _sysReqStr + _sysRigName + ' f7');  },300 );  //request rigname, when this is received in infilterhelper request the other parameters of the rig
 			return;
 		}
 		
@@ -1699,7 +1736,7 @@ module.exports = {
 			stompIdent = address.substring(10,11);                             
 			stompFxIdent = args[0].value;
 			logItAll('stompident',stompIdent,'stompfxident',stompFxIdent,args[1].value,'address',address.substring(10,11),'');
-			stompsFxControls(stompIdent,args[0].value,'red');
+			stompsFxControls(stompIdent,args[0].value);
 		} 
 		//main categories of the fx ('all', 'wah',....)
 		if (address.substring(0,11) === '/fxCatShow'){ 
@@ -1712,17 +1749,14 @@ module.exports = {
 				stompFxIdTemp = getPartObjByKeySearch('#' + args[1].value,stompFxId);
 				receive(sendIp,serverPort,'/stomp' + args[0].value + 'Sel/showFxByCat',stompFxIdTemp);	
 			}
-			//receive('/kempStomp' + args[0].value + 'FXSel/showlastFxChoosen',lastFxChoosen[args[0].value]);
 			//default color to black when switching catetgory
 			//receive('/kempStomp'+ args[0].value + 'FXSel/showFxCatColors','label' + ' {	background: black;  } .popup-title { background: black; }'); 
 		}
 		//Testbutton 
 		if (address === '/button_x33') {
 			j = 0;
-			let inVal,outVal;
 			let tempId;
-            let range_in = [],
-                range_out = [];
+          
 
 			//	receive(sendIp,serverPort,'/stomp' + args[0].value + 'Sel/showFxByCat',stompFxIdTemp);	
 			for(i = 0;i < viewObjDef["LIVE"].length; i++){
@@ -1740,9 +1774,6 @@ module.exports = {
 			//for (i = 0; i < 20; i++ ){
 
 			//	setTimeout(function () {  
-					//send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 01 00 32 44 ' +  ((j >> 7) & 0x7f).toString(16).padStart(2,'0') + ' ' +  (j & 0x7f).toString(16).padStart(2,'0') + ' f7');
-                    //send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 01 00 32 15 ' +  ((j >> 7) & 0x7f).toString(16).padStart(2,'0') + ' 00 f7');
-                    //send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 01 00 32 15 ' +  (i & 0x7f).toString(16).padStart(2,'0') + ' 00 f7');
 			//		console.log(j);
 			//		j = j + 127;
 					
@@ -1754,7 +1785,6 @@ module.exports = {
 		}	
 		if (address === '/Tuner'){
 			send('midi', midiDeviceName, '/control', 1,31, args[0].value );	 
-			//send('midi',midiDeviceName,'/sysex','f0 00 20 33 02 7f 41 00 00 1f f7');  //req single parameter amp 
 		}
 		if (address === '/views'){		//switching views, set global variable and show or hide according to viewobj
 			currView = args[0].value;
@@ -1780,7 +1810,7 @@ module.exports = {
 				}
 				countRigs = 0;				
 				rigsList = {};
-				setTimeout(function () { timeOut(0,"BROWSE"); },1000 );   //after a little waiting start perf scan
+				setTimeout(function () { scanRigsOrPerfs(0,"BROWSE"); },1000 );   //after a little waiting start perf scan
 				
 			} else {	
 				initRigs = 0;
@@ -1796,7 +1826,7 @@ module.exports = {
 				perfList = {};                                                           //empty object, in this object we will store the data 
 				logItAll('performance scan',Object.keys(perfList).length,'','','','','','');
 				perfIndex = 0;
-				setTimeout(function () { timeOut(0,"PERFORM"); },1000 );   //after a little waiting start perf scan -> done by recursion				
+				setTimeout(function () { scanRigsOrPerfs(0,"PERFORM"); },1000 );   //after a little waiting start perf scan -> done by recursion				
 				bankNr = 0;
 				send('midi', midiDeviceName, '/control', 1,32, bankNr );   //after scan switch to first bank select
 
@@ -1826,7 +1856,7 @@ module.exports = {
 			logItAll('perfrigs',args[0].value,Object.values(perfList)[args[0].value],'','','','','');
 			if (!browseMode) {
 				send('midi', midiDeviceName, '/control', 1,(50 + args[0].value) ,1);
-				setTimeout(function () { send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 43 00 00 01 f7');  },300 );   //request rigname, when this is received in infilterhelper request the other parameters of the rig
+				setTimeout(function () { send('midi', midiDeviceName, '/sysex', _sysReqStr + _sysRigName + ' f7');  },300 );   //request rigname, when this is received in infilterhelper request the other parameters of the rig
 				//requestRigInfo();
 			}
 		
@@ -1929,7 +1959,7 @@ module.exports = {
 				j = 0;
 				send('midi', midiDeviceName, '/program', 1, args[0].value );
 			}	
-			setTimeout(function () { send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 43 00 00 01 f7');  },300 );	  //request rigname, when this is received in infilterhelper request the other parameters of the rig
+			setTimeout(function () { send('midi', midiDeviceName, '/sysex', _sysReqStr + _sysRigName + ' f7');  },300 );	  //request rigname, when this is received in infilterhelper request the other parameters of the rig
 			//requestRigInfo(); 											//update visible controls and infos
 			return;
 		}	
@@ -1938,9 +1968,9 @@ module.exports = {
 		if(address.substring(0,11) === '/rigSection') {
 			logItAll('outfilter rigsection',adrIdToKemp,'','','','','','');
 			if (args[0].value === 0) {
-				send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 00 00 01 00 ' + getKeyByValue(adrIdToKemp,address) + '00 00 f7');    //turn off the subsection
+				send('midi', midiDeviceName, '/sysex', _sysChgSinPar + getKeyByValue(adrIdToKemp,address) + '00 00 f7');    //turn off the subsection
 			} else {
-				send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 00 00 01 00 ' + getKeyByValue(adrIdToKemp,address) + '01 00 f7');    //turn on the subsection  
+				send('midi', midiDeviceName, '/sysex', _sysChgSinPar + getKeyByValue(adrIdToKemp,address) + '01 00 f7');    //turn on the subsection  
 			}	
 		}			
 		
@@ -1948,8 +1978,8 @@ module.exports = {
 		if (address.substring(0,8) === '/FXKNOB_'){											//update of fxknobs in the gui send this to the kemper 
 			logItAll('fxknob out ',args[0].value,stompIdent,stompFxIdent,fxIdentHex[stompFxIdent][address.substr(8)],'','','');
 			if (typeof reqStrValue[fxIdentHex[stompFxIdent][address.substr(8)] + ' ' + stompFxIdent] === 'object'){  // fxknob where the string value should be updated by  string request 
-				send('midi', midiDeviceName, '/sysex',  'f0 00 20 33 02 7f 7c 00 ' +  getKeyByValue(fxStompIdent,stompIdent) + ' ' + fxIdentHex[stompFxIdent][address.substr(8)] + ' ' + ((args[0].value >> 7) & 0x7f).toString(16).padStart(2,'0') + ' ' +  (args[0].value & 0x7f).toString(16).padStart(2,'0') + ' f7' );
-				send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 01 00 ' +  getKeyByValue(fxStompIdent,stompIdent) + ' ' + fxIdentHex[stompFxIdent][address.substr(8)] + ' ' + ((args[0].value >> 7) & 0x7f).toString(16).padStart(2,'0') + ' ' +  (args[0].value & 0x7f).toString(16).padStart(2,'0') + ' f7'); //update values on kemper
+				send('midi', midiDeviceName, '/sysex',  _sysReqRendStr +  getKeyByValue(fxStompIdent,stompIdent) + ' ' + fxIdentHex[stompFxIdent][address.substr(8)] + ' ' + ((args[0].value >> 7) & 0x7f).toString(16).padStart(2,'0') + ' ' +  (args[0].value & 0x7f).toString(16).padStart(2,'0') + ' f7' );
+				send('midi', midiDeviceName, '/sysex', _sysChgSinPar +  getKeyByValue(fxStompIdent,stompIdent) + ' ' + fxIdentHex[stompFxIdent][address.substr(8)] + ' ' + ((args[0].value >> 7) & 0x7f).toString(16).padStart(2,'0') + ' ' +  (args[0].value & 0x7f).toString(16).padStart(2,'0') + ' f7'); //update values on kemper
 				return;
 			}
 			if ((typeof notRenderableStr[fxIdentHex[stompFxIdent][address.substr(8)] + ' ' + stompFxIdent]) !== 'undefined' ) {  //send correct values if string can not be rendered and is not linear
@@ -1966,10 +1996,10 @@ module.exports = {
 				receive(sendIp,serverPort,'/FXKNOBVAL_' + address.substr(8),stompIdent, fxKnobFinalValue );    //update values of knobs in interface
 				//return;
 			}			
-			if (((args[0].value >> 7) & 0x7f).toString(16).padStart(2,'0') === '00') {   // when the value is represented by 2bytes hex only calc it different 
-				send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 01 00 ' +  getKeyByValue(fxStompIdent,stompIdent) + ' ' + fxIdentHex[stompFxIdent][address.substr(8)] + ' ' + ((args[0].value >> 7) & 0x7f).toString(16).padStart(2,'0') + ' ' +  (args[0].value & 0x7f).toString(16).padStart(2,'0') + ' f7'); //update values on kemper
+			if (((args[0].value >> 7) & 0x7f).toString(16).padStart(2,'0') === '00') {   // when the value is represented by 2bytes hex only calc it different -> change it on the kemper
+				send('midi', midiDeviceName, '/sysex', _sysChgSinPar +  getKeyByValue(fxStompIdent,stompIdent) + ' ' + fxIdentHex[stompFxIdent][address.substr(8)] + ' ' + ((args[0].value >> 7) & 0x7f).toString(16).padStart(2,'0') + ' ' +  (args[0].value & 0x7f).toString(16).padStart(2,'0') + ' f7'); //update values on kemper
 			} else {
-				send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 01 00 ' +  getKeyByValue(fxStompIdent,stompIdent) + ' ' + fxIdentHex[stompFxIdent][address.substr(8)] +  (args[0].value & 0x7f).toString(16).padStart(2,'0') + ' ' + ((args[0].value >> 7) & 0x7f).toString(16).padStart(2,'0') + ' f7'); //update values on kemper
+				send('midi', midiDeviceName, '/sysex', _sysChgSinPar +  getKeyByValue(fxStompIdent,stompIdent) + ' ' + fxIdentHex[stompFxIdent][address.substr(8)] +  (args[0].value & 0x7f).toString(16).padStart(2,'0') + ' ' + ((args[0].value >> 7) & 0x7f).toString(16).padStart(2,'0') + ' f7'); //update values on kemper
 					
 			}
 			return;				  
@@ -1978,17 +2008,17 @@ module.exports = {
 		 
 		//operations on the stomps 
 		if (address.substring(0,6) === '/stomp') {   // preselect stomps  
-			stompTemp = stompArgs.indexOf(address.substring(6,7)) + 1; 
+			stompTemp = _stompArgs.indexOf(address.substring(6,7)) + 1; 
 			
-			logItAll('stompArgs index',stompTemp,stompArgs[stompTemp],'',getKeyByValue(stompFxId,args[0].value).split('#')[1],mainFxColors[getKeyByValue(stompFxId,args[0].value).split('#')[1]],address.substring(6,7),'');	
+			logItAll('stompArgs index',stompTemp,_stompArgs[stompTemp],'',getKeyByValue(stompFxId,args[0].value).split('#')[1],mainFxColors[getKeyByValue(stompFxId,args[0].value).split('#')[1]],address.substring(6,7),'');	
   		    if (args[0].value !== '00' && args[0].value !== 'undefined' ) {   // value of the effects of stomp a to d value '00' means off
-                send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 01 00' + stompArgs[stompTemp] + '00 ' +  args[0].value + ' f7');  //first select the effect			
-     			send('midi', midiDeviceName, '/control', 1, stompArgs[stompTemp + 1], 1);                                                //after that turn on the stomp
+                send('midi', midiDeviceName, '/sysex', _sysChgSinPar + _stompArgs[stompTemp] + '00 ' +  args[0].value + ' f7');  //first select the effect			
+     			send('midi', midiDeviceName, '/control', 1, _stompArgs[stompTemp + 1], 1);                                                //after that turn on the stomp
 				
 
 			} else {
-			   send('midi', midiDeviceName, '/control', 1,stompArgs[stompTemp + 1], 0);                                                 //turn off the stomp   
-			   send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 01 00' + stompArgs[stompTemp] + '00 ' +  args[0].value + ' f7');                      // remove effect by setting it to 'off'
+			   send('midi', midiDeviceName, '/control', 1,_stompArgs[stompTemp + 1], 0);                                                 //turn off the stomp   
+			   send('midi', midiDeviceName, '/sysex', _sysChgSinPar + _stompArgs[stompTemp] + '00 ' +  args[0].value + ' f7');                      // remove effect by setting it to 'off'
 			   receive('/kempStomp'+ address.substring(6,7) + 'FXSel/showFxCatColors','label' + ' {	background: black;  } .popup-title { background: black; }'); 
 			}
 			lastFxChoosen[address.substring(6,7)] =  args[0].value;
@@ -2009,10 +2039,7 @@ module.exports = {
 
 		
 		if (address === '/program') {
-			//setTimeout(function () { send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 43 00 00 01 f7');  },300 );  //request rigname, when this is received in infilterhelper request the other parameters of the rig
-			send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 43 00 00 01 f7');
-			//requestRigInfo();
-  
+			send('midi', midiDeviceName, '/sysex', _sysReqStr + _sysRigName + ' f7');  		//reqiest rigname
 			if (args[2].value !== 0 ) { return {address, args, host, port} };
 		} else if (address === '/sysex'){
 		} else {
@@ -2024,15 +2051,14 @@ module.exports = {
 
         var {host, port, address, args} = data     			 
         
-		var inArgs = args.map(x=>x.value),
-			outArgs = [];					
+		var inArgs = args.map(x=>x.value);					
 			
-		logItAll('oscinfilter start',address,args[0].value,notRenderableStr['15 00 44'],'','','','');
+		logItAll('oscinfilter start',address,args[0].value,'','','','','');
 		
 		if (address === '/sysex'){
 			var [value] = inArgs;
 	        logItAll('infilter sysex',host,value,'','','','','');	
-			if (value.includes("f0 00 20 33 00 00 07 00 00 00 01 00 ")) {  // extended string request from scanning performances and their rig names
+			if (value.includes(_sysAnswExtStr + "00 00 00 01 00 ")) {  // extended string request from scanning performances and their rig names
 				tempPerfHex = value.split(' ').join('').substr(26);
 				
 				for (i = 0; i < ( tempPerfHex.length - 2); i += 2){
@@ -2042,7 +2068,7 @@ module.exports = {
 				logItAll('ext. str req',tempStr,( parseInt(value.split(' ').join('').substr(24,2) , 16) - 1),tempStr.localeCompare('Slot'),'','','','');
 				receive(sendIp,serverPort,'/kempPerfnameText',tempStr);			
 				
-				if (value.includes("f0 00 20 33 00 00 07 00 00 00 01 00 00 ")) {	  //perfname received				    
+				if (value.includes(_sysAnswExtStr + "00 00 00 01 00 00 ")) {	  //perfname received				    
 					currPerfName = perfIndex + '-' + tempStr.replace(/\0.*$/g,'');    //remove unwanted "\u0000" from the end of the string
 					perfList[currPerfName] = ["","","","",""];                        //make an empty performance entry
 					receive(sendIp,serverPort,'/scannedPerfName',tempStr);            //update performance name in the gui when found   
@@ -2061,23 +2087,22 @@ module.exports = {
 				tempStr = '';
 				return;   // no need for further processing
 		    }	 
-		    if ((value === 'f0 00 20 33 00 00 01 00 00 2f 00 7f f7') ) {   //kemper is sending this sysex when switching between browse and perf mode
-				//requestRigInfo(currView);
-				send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 43 00 00 01 f7');  //trigger rigname request to update to the current rig
+		    if ((value === _sysAnswSinPar + '00 2f 00 7f f7') ) {   //kemper is sending this sysex when switching between browse and perf mode
+				send('midi', midiDeviceName, '/sysex', _sysReqStr + _sysRigName + ' f7');  //trigger rigname request to update to the current rig
 				//return;
 			}	
-            if (value.includes("f0 00 20 33 00 00 01 00 ") )    {         // singleparameter 
+            if (value.includes(_sysAnswSinPar) )    {         // singleparameter 
 	           	valSplitMulti = value.split(" ");
 			   	logItAll('oscinfilter singleparameter 1',fxStompIdent.hasOwnProperty(valSplitMulti[8]),valSplitMulti[8],valSplitMulti[9],valSplitMulti[10],valSplitMulti[11],'');
 			   	if (fxStompIdent.hasOwnProperty(valSplitMulti[8]) && (valSplitMulti[9] === '00') ) {  //update incoming fx selection as special singleparameter  stomp a - d have at position 9 '00'     				                                                                                                                                       
 					logItAll('oscinfilter singelparameter 2',fxStompIdent.hasOwnProperty(valSplitMulti[8]),valSplitMulti[8],valSplitMulti[9],valSplitMulti[10],valSplitMulti[11],'');
 					if ((valSplitMulti[8] === '7f') && (valSplitMulti[9] === '00')) {  		// Fix main out Volume
-						inFilterHelper(value,host);
+						inFilterHelper(value);
 						return;
 					}  
 					if ((valSplitMulti[10] === '00') && (valSplitMulti[11] === '01')) {
 						logItAll('oscinfilter singelparameter 3',fxStompIdent.hasOwnProperty(valSplitMulti[8]),valSplitMulti[8],valSplitMulti[9],valSplitMulti[10],valSplitMulti[11],'');
-					   	send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 42 00 ' + valSplitMulti[8] + ' 00 f7');  //multi req fx of stomp stack effects section, because we don't know the effects hex here
+					   	send('midi', midiDeviceName, '/sysex', _sysReqMultPar + valSplitMulti[8] + ' 00 f7');  //multi req fx of stomp stack effects section, because we don't know the effects hex here
 						  
 					} else {                                                                                       // turn the subsection on (on the device ) always sends 00 01, which is also the fx id of wah wah, so req it  
 				     	receive(sendIp,serverPort,'/stomp' + fxStompIdent[valSplitMulti[8]] + 'Sel', valSplitMulti[10] + ' ' + valSplitMulti[11] );
@@ -2089,7 +2114,6 @@ module.exports = {
 						}
 						lastFxChoosen[fxStompIdent[valSplitMulti[8]]] =  valSplitMulti[10] + ' ' + valSplitMulti[11];
 						receive('/kempStomp' + fxStompIdent[valSplitMulti[8]] + 'FXSel/showlastFxChoosen', getKeyByValue(stompFxId,lastFxChoosen[fxStompIdent[valSplitMulti[8]]]));
-						//receive('/kempStomp' + address.substring(6,7) + 'FXSel/showlastFxChoosen',  getKeyByValue(stompFxId,lastFxChoosen[address.substring(6,7)]));
 					}	   
 			    } else {	
 					
@@ -2099,21 +2123,22 @@ module.exports = {
 						return;
 					}
 									
-					inFilterHelper(value,host);		 				
+					inFilterHelper(value);		 				
 			   	}
 			} 
-			else if ((value.includes("f0 00 20 33 02 7f 3c 00 ")) || (value.includes("f0 00 20 33 00 00 03 00 "))) { // singleparameter rigvol as string
-			   	inFilterHelper(value,host);
+			else if ((value.includes(_sysAnswRendStr)) || (value.includes(_sysAnswStr))) { // string and extended string answers (rigvol)
+			   	inFilterHelper(value);
 			}
 							
 			//catch the multireq of stomps FX, convert the values to values like shown on kemper print these values and set the knob to the correct position
-		    if (value.includes("f0 00 20 33 00 00 02 00 3")) {
+			//all stomp id starts with "3"
+		    if (value.includes(_sysAnswMulPar + "00 3")) {
         	    valSplitMulti = value.split(" ");
 				stompIdent = fxStompIdent[valSplitMulti[8]];  // check stomp from hexval at pos 8
 				curFxId = valSplitMulti[10] + ' ' + valSplitMulti[11]; //four hex chars define the fx id according to kemper response	
 				j = 0;
 			    receive(sendIp,serverPort,'/stomp' + stompIdent + 'Sel', valSplitMulti[10] + ' ' + valSplitMulti[11] );    // set stomp[x]Sel widget 	
-				//color the fx on load or when loading a new rig
+				//color the fx on load or when loading a new rig by applying a different css
 				receive('/kempStomp'+ stompIdent + 'FXSel/showFxCatColors','label' + ' {	background: ' + mainFxColors[getKeyByValue(stompFxId,curFxId).split('#')[1]] + ';  } .popup-title { background: ' + mainFxColors[getKeyByValue(stompFxId,curFxId).split('#')[1]]  + '; }' );
 				if (curFxId === '00 01' ) {						//fix for first fx wah wah, this has to be req as multifx to be sure, this has to be done, otherwise instead of wahwah, "undefined" would be printed
 					lastFxChoosen[stompIdent] =  curFxId;		//when another fx is selected save it in the global object
@@ -2132,14 +2157,13 @@ module.exports = {
 	                knobVal =   (parseInt( valSplitMulti[stompTemp],16) * 128) + parseInt( valSplitMulti[stompTemp + 1],16);
 					logItAll('fxmulticontrolud ',knobVal,stompTemp,curFxId,'','','','');
 					k = j + (fxControlsKnobSetup[curFxId].length / 2);
-					//fxKnobFinalValue = scaleValue(knobVal,[fxControlsKnobSetup[curFxId][j + 1],fxControlsKnobSetup[curFxId][j + 2]],[fxControlsKnobVal[curFxId][j + 1],fxControlsKnobVal[curFxId][j + 2]]);
 					fxKnobFinalValue = scaleValue(knobVal,[fxControlsKnobSetup[curFxId][j + 1],fxControlsKnobSetup[curFxId][j + 2]],[fxControlsKnobSetup[curFxId][k + 1],fxControlsKnobSetup[curFxId][k + 2]]);
 					receive(sendIp,serverPort,'/FXKNOB_' + i,stompIdent, knobVal );                       
 					receive(sendIp,serverPort,'/FXKNOBVAL_' + i,stompIdent, fxKnobFinalValue );
 				  j = j + 3;
 				}					
 			
-			} else if ( (value.includes("f0 00 20 33 00 00 02 00 09")) || (value.includes("f0 00 20 33 00 00 02 00 0b")) ) {  //update input section
+			} else if ( (value.includes(_sysAnswMulPar + "00 09")) || (value.includes(_sysAnswMulPar + "00 0b")) ) {  //update input section
 				valSplitMulti = value.split(" ");
 			    curFxId = valSplitMulti[8] + ' ' + valSplitMulti[9];
 				j = 0;
@@ -2158,7 +2182,7 @@ module.exports = {
 					}	
 				}							
 				
-			} else if(value.includes("f0 00 20 33 00 00 02 00 7f")) {  // output Section
+			} else if(value.includes(_sysAnswMulPar + "00 7f")) {  // output Section
                 valSplitMulti = value.split(" ");
 				curFxId = valSplitMulti[8] + ' ' + valSplitMulti[9];
 				i = 0;
@@ -2166,15 +2190,14 @@ module.exports = {
 				for (const[keyid,valueid] of Object.entries(adrIdToKemp) ) {              // check all key value pairs of object adrIdToKemp
 				    if (keyid.substring(0,2) === valSplitMulti[8]){                       // we need all with values like 90 xx  
 						stompTemp = (parseInt(fxIdentHex[curFxId][i],16) * 2) + 10;                      // starting position of hex string
-						updateKnobValKemper = 'f0 00 20 33 02 7f 7c 00 ' + getKeyByValue(adrIdToKemp,valueid) + ' ' +  valSplitMulti[stompTemp] + ' ' + valSplitMulti[stompTemp + 1] + ' f7'; 						
+						updateKnobValKemper = _sysReqRendStr + getKeyByValue(adrIdToKemp,valueid) + ' ' +  valSplitMulti[stompTemp] + ' ' + valSplitMulti[stompTemp + 1] + ' f7'; 						
 						send('midi', midiDeviceName, '/sysex', updateKnobValKemper);                   //ask for the db strings to display
                         i = i + 1;						
 					    j = j + 3;																		
 					}	
 				}					
 				
-			} else if  (value.includes("f0 00 20 33 00 00 02 00 0b")) { 			   				
-			}				
+			} 			
 		
 		}
 		
@@ -2195,7 +2218,7 @@ module.exports = {
 			logItAll('infilter program ',args[0].value,args[1].value,'','','','','');
 			if ((!browseMode) && (args[1].value === 0 )){
 				receive(sendIp,serverPort,'/perfRigs', 0 );
-				setTimeout(function () { send('midi', midiDeviceName, '/sysex', 'f0 00 20 33 02 7f 43 00 00 01 f7');  },300 );  //request rigname, when this is received in infilterhelper request the other parameters of the rig
+				setTimeout(function () { send('midi', midiDeviceName, '/sysex', _sysReqStr + _sysRigName + ' f7');  },300 );  //request rigname, when this is received in infilterhelper request the other parameters of the rig
 				//requestRigInfo();	
 			}	
 		}	       		
