@@ -81,4 +81,5 @@ To use KEKO a really good midi connection and Network connection is a must
 - [x] How to handle not renderable non-linear values listed above (partly approach found)?
 - [x] Make modules to simplify handling in bigger projects
 - [ ] Various Code cleanups, maybe splitting definitions in a seperate module file
+- [ ] Investigate in realization with a Raspberry Pi and a ESI MATE EX Midi USB Interface
  
