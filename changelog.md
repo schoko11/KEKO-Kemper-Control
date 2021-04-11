@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.2-Alpha] - 2021-04-11
+
+### Added
+- another view LIVE, with very minimal elements, see screenshots in readme
+- added Tuner button, flashes when active
+- added another file "nord-mod.css" should make handling of different styles easier
+
+### Fixed / changed
+- Various code cleanups (still a lot to do)
+- Text size is now bigger uses space more efficently
+
 ## [0.2.1-Alpha] - 2021-04-08
 
 ### Added
