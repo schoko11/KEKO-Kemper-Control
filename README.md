@@ -4,13 +4,13 @@ KEKO is based on and made with Open Stage Control (https://openstagecontrol.ammd
 OSC (in short for openstagecontrol) is a Server Client Application.
 
 **View "FULL" (Browse Mode):**
-![KEKO_View_Full_Browse_0_2_2_alpha](https://user-images.githubusercontent.com/41967358/114307917-2fca3700-9ae2-11eb-870d-0021ff9b6773.JPG)
+![KEKO_View_Full_Browse_0_3_0_alpha](https://user-images.githubusercontent.com/41967358/114307917-2fca3700-9ae2-11eb-870d-0021ff9b6773.JPG)
 
 **View "MIDI" (Browse Mode):**
-![KEKO_View_Midi_Browse_0_2_2_alpha](https://user-images.githubusercontent.com/41967358/114307945-4bcdd880-9ae2-11eb-812c-f3a03894081e.JPG)
+![KEKO_View_Midi_Browse_0_3_0_alpha](https://user-images.githubusercontent.com/41967358/114307945-4bcdd880-9ae2-11eb-812c-f3a03894081e.JPG)
 
 **View "LIVE" (for tablet usage, Performance Mode):**
-![KEKO_View_live_Performance_0_2_2_alpha](https://user-images.githubusercontent.com/41967358/114307948-525c5000-9ae2-11eb-9080-f693ced9229a.JPG)
+![KEKO_View_live_Performance_0_3_0_alpha](https://user-images.githubusercontent.com/41967358/114307948-525c5000-9ae2-11eb-9080-f693ced9229a.JPG)
 
 
 
@@ -69,6 +69,7 @@ To use KEKO a really good midi connection and Network connection is a must
 
 **Known limitations / drawbacks / bugs**
 - At some points a little waiting of 300ms has been added after changing the rig, so that the values are updated for the current rig and not the rig before (maybe adding a user changeable value in the future)
+- OSC Version 19.1 must be used and Kemper OS Version 8.06 (new fuzz fx etc. are not tested) for Version 0.3.0
 
 **TODO:**
 
