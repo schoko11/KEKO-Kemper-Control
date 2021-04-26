@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.0-Alpha] - 2021-04-26
+
+### Added
+- controls(Main out / Mon Out EQ and Volumes, looper Volume) in Output Sections (instead of showing output levels)
+- pedals in output Section (disabled for now, a bug has to be fixed)
+
+### Fixed / changed
+- removed not working labels of output section Volumes
+
 ## [0.2.2-Alpha] - 2021-04-11
 
 ### Added
