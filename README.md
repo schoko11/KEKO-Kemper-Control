@@ -85,6 +85,7 @@ To use KEKO a really good midi connection and Network connection is a must
 - [ ] Investigate in realization with a Raspberry Pi and a ESI MATE EX Midi USB Interface
 - [ ] Investigate into an guided installer with electron, as some peeps seems to have a problem setting it up (basically download the newest OSC Version und copy the corresponding files to the correct location, maybe even a guided midi setup could be possible)
 - [ ] In LIVE view rig and performance is mixed up
+- [ ] In LIVE view add performance switching (next, prev)
 - [ ] As it is not possible by midi to store a rig or performance, think about something like a snapshot to preserve / load the current settings
 - [ ] When some SETTINGS are choosen the SETTINGS page should be closed automatically
 - [ ] Would it be fun to use some kind of USB HID Device as control (https://github.com/node-hid/node-hid/issues) ?
