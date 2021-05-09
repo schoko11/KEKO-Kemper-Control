@@ -12,6 +12,10 @@ OSC (in short for openstagecontrol) is a Server Client Application.
 **View "LIVE" (for tablet usage, Performance Mode):**
 ![KEKO_View_live_Performance_0_3_0_alpha](https://user-images.githubusercontent.com/41967358/114307948-525c5000-9ae2-11eb-9080-f693ced9229a.JPG)
 
+**Setup helps:**
+![KEKO_Folders_and_files](https://user-images.githubusercontent.com/41967358/117565018-8611a200-b0af-11eb-8205-02e625d05eca.JPG)
+![Server_settings_OSC](https://user-images.githubusercontent.com/41967358/117565014-801bc100-b0af-11eb-8960-e4bc4411f671.JPG)
+
 
 
 >This Project is made and designed on a 24" Touchscreen and allows you to control a lot of the Parameters the Kemper has to offer.
