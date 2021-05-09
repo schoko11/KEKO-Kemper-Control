@@ -69,7 +69,7 @@ To use KEKO a really good midi connection and Network connection is a must
 
 **Known limitations / drawbacks / bugs**
 - At some points a little waiting of 300ms has been added after changing the rig, so that the values are updated for the current rig and not the rig before (maybe adding a user changeable value in the future)
-- OSC Version 19.1 must be used and Kemper OS Version 8.06 (new fuzz fx etc. are not tested) for Version 0.3.0
+- OSC Version 1.9.1 must be used and Kemper OS Version 8.06 (new fuzz fx etc. are not tested) for Version 0.3.0
 
 **TODO:**
 
@@ -83,4 +83,9 @@ To use KEKO a really good midi connection and Network connection is a must
 - [x] Make modules to simplify handling in bigger projects
 - [ ] Various Code cleanups, maybe splitting definitions in a seperate module file
 - [ ] Investigate in realization with a Raspberry Pi and a ESI MATE EX Midi USB Interface
+- [ ] Investigate into an guided installer with electron, as some peeps seems to have a problem setting it up (basically download the newest OSC Version und copy the corresponding files to the correct location, maybe even a guided midi setup could be possible)
+- [ ] In LIVE view rig and performance is mixed up
+- [ ] As it is not possible by midi to store a rig or performance, think about something like a snapshot to preserve / load the current settings
+- [ ] When some SETTINGS are choosen the SETTINGS page should be closed automatically
+- [ ] Would it be fun to use some kind of USB HID Device as control (https://github.com/node-hid/node-hid/issues) ?
  
