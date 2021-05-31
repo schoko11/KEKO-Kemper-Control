@@ -294,7 +294,7 @@ const stompFxId = {        //the name of the fx in the correct order, the hex id
   	"Muffin #DIST": stompFxKEYS[14],
   	"Mouse #DIST": stompFxKEYS[15],
   	"Full OC #DIST": stompFxKEYS[16],
-  	"Fuzz DS #DIST": stompFxKEYS[17],
+  	"Kemper Fuzz DS #DIST": stompFxKEYS[17],
   	"Metal DS #DIST": stompFxKEYS[18],
   	"Kemper Drive #DIST": stompFxKEYS[19],
   	"Treble Booster #BOO": stompFxKEYS[20],
@@ -302,7 +302,7 @@ const stompFxId = {        //the name of the fx in the correct order, the hex id
   	"Pure Booster #BOO": stompFxKEYS[22],
   	"Wah Pedal Booster #BOO": stompFxKEYS[23],
   	"Bit Shaper #SHAP": stompFxKEYS[24],
-  	"Recti Shaper #SHAP": stompFxKEYS[25],
+  	"Octa Shaper #SHAP": stompFxKEYS[25],
   	"Soft Shaper #SHAP": stompFxKEYS[26],
   	"Hard Shaper #SHAP": stompFxKEYS[27],
   	"Wave Shaper #SHAP": stompFxKEYS[28],
@@ -441,8 +441,8 @@ const fxIdentHex = {
 					   "Drive", "Tone", "Mix", "Volume"],
   	[stompFxKEYS[16]]: ["10","11","04","06",
 					  "Drive", "Tone", "Mix", "Volume"],
-   	[stompFxKEYS[17]]: ["10","04","06",
-					   "Drive","Mix","Volume"],
+   	[stompFxKEYS[17]]: ["10","06","14","15","13","17","12","04",
+					   "Drive","Volume","Translator Shape","Translator Tone","Impedance lp","Definition","Octa","Mix"],
   	[stompFxKEYS[18]]: ["10","04","06",
 					  "Drive", "Mix", "Volume"],
    	[stompFxKEYS[19]]: ["10","11","15","17","04","06",
@@ -849,8 +849,8 @@ const fxControlsKnobSetup = {
 					 	128,0,10,128,0,10,128,0,100,128,-5,5],
  	[stompFxKEYS[16]]: [128,0,16383, 128,0,16383,128,0,16383, 128,0,16383,
 					 	128,0,10,128,0,10,128,0,100,128,-5,5],
-  	[stompFxKEYS[17]]: [128,0,16383, 128,0,16383,128,0,16383,
-					  	128,0,10,128,0,100,128,-5,5],
+  	[stompFxKEYS[17]]: [128,0,16383, 128,0,16383,128,0,16383,128,0,16383,128,0,16383,128,0,16383,128,0,16383,128,0,16383,
+					  	128,0,10,128,-5,5,128,0,10,128,0,10,128,0,10,128,0,10,128,0,10,128,0,100],
   	[stompFxKEYS[18]]: [128,0,16383, 128,0,16383,128,0,16383,
 					  	128,0,10,128,0,100,128,-5,5],
   	[stompFxKEYS[19]]: [128,0,16383,128,0,16383,128,0,16383,128,0,16383,128,0,16383,128,0,16383,
@@ -876,9 +876,9 @@ const fxControlsKnobSetup = {
   	[stompFxKEYS[29]]: [128,0,16383,128,0,16383,128,0,16383,128,0,16383,128,0,16383,128,0,16383,128,0,16383,128,0,16383,256,0,16383,256,0,16383,128,0,16383,128,0,16383,128,0,16383,
 					  	128,-12,12,128,-12,12,128,-12,12,128,-12,12,128,-12,12,128,-12,12,128,-12,12,128,-12,12,256,20.6,33488,256,20.6,33488,128,-5,5,128,0,100,128,-5,5 ],  
   	[stompFxKEYS[30]]: [128,0,16383,256,0,16383,128,0,16383,256,0,16383,128,0,16383,256,0,16383,256,0,16383,128,0,16383,256,0,16383,256,0,16383,256,0,16383,256,0,16383,128,0,16383,128,0,16383,128,0,16383,
-					  	128,-12,12,256,20.6,33488,128,-12,12,256,20.6,33488,128,-12,12,256,20.6,33488,256,0.1,5,128,-12,12,256,20.6,33488,256,0.1,5,256,20.6,33488,256,20.6,33488,128,-5,5,128,0,100,128,-5,5 ],
+					  	128,-18,18,256,20.6,33488,128,-18,18,256,20.6,33488,128,-18,18,256,20.6,33488,256,0.1,5,128,-18,18,256,20.6,33488,256,0.1,5,256,20.6,33488,256,20.6,33488,128,-5,5,128,0,100,128,-5,5 ],
   	[stompFxKEYS[31]]: [128,0,16383,128,0,16383,256,0,16383,128,0,16383,256,0,16383,256,0,16383,128,0,16383,128,0,16383,128,0,16383,
-					  	128,-12,12,128,-12,12,256,20.6,33488,128,-12,12, 256,20.6,33488, 256,20.6,33488,128,-5,5,128,0,100,128,-5,5	 ],
+					  	128,-18,18,128,-18,18,256,20.6,33488,128,-18,18, 256,20.6,33488, 256,20.6,33488,128,-5,5,128,0,100,128,-5,5	 ],
  	[stompFxKEYS[32]]: [ 128,0,16383,128,0,16383,128,0,16383,128,0,16383,
 					  	128,0,10,128,-5,5,128,-5,5,128,-5,5 ],
  	[stompFxKEYS[33]]: [128,0,16383,128,0,16383,128,0,16383,
@@ -1282,6 +1282,9 @@ function updateStrInterface(splitSysex,id,stomp) {
 function stompsFxControls(stompId,fxHex){
 	j = 0;  // counter for steps, min and max
 	//let tempLen = 
+	if ( (fxIdentHex[fxHex].length / 2 ) > 20 ){
+		receive('/fxSeperator1/showFxSeperator',1); 
+	}
 	for(i = 0; i < maxFxControls; i ++) {
 		logItAll('stompsFxControls ',stompId,(fxIdentHex[fxHex].length / 2 ),fxHex,'','','','');
 	    if (i < (fxIdentHex[fxHex].length / 2 ) && fxHex !== '00 00') {
@@ -1895,7 +1898,10 @@ module.exports = {
 		
 		//show the controls for the current fx
 		if (address.substring(0,10) === '/kempFxDet'){    //set the values global when clicking on fx details
-			if (args[1].value === 0)  {return;}  //when closing fx details do nothing
+			if (args[1].value === 0)  {
+				receive('/fxSeperator1/showFxSeperator',0); //switch off the second seperator line each time closing the fx
+				return;
+			}  //when closing fx details do nothing
 			stompIdent = address.substring(10,11);                             
 			stompFxIdent = args[0].value;
 			logItAll('stompident',stompIdent,'stompfxident',stompFxIdent,args[0].value,'address',address.substring(10,11),'');
