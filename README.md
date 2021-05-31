@@ -73,7 +73,7 @@ To use KEKO a really good midi connection and Network connection is a must
 
 **Known limitations / drawbacks / bugs**
 - At some points a little waiting of 300ms has been added after changing the rig, so that the values are updated for the current rig and not the rig before (maybe adding a user changeable value in the future)
-- OSC Version 1.9.1 must be used and Kemper OS Version 8.06 (new fuzz fx etc. are not tested) for Version 0.3.0
+- OSC Version 1.9.8 must be used and Kemper OS Version 8.2.2 (Transistor Shape value when opening FX details is wrong -> contacted support) for Version 0.3.1
 
 **TODO:**
 
