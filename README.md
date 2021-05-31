@@ -40,7 +40,7 @@ To control your Kemper you normally need to use the Rigmanager(or Kemper Remote)
 - On the Kemper itself in the System settings on page 15, you have to activate "UI to MIDI".
 - If you want rigs to be direct selectable you have to assign a MIDI Program Change to your rigs (System page 13).
 - Start with 1 and leave no gap!
-- This Version uses OS 8.0.6 this must match with your Profiler.
+- This Version uses OS 8.2.2 this must match with your Profiler.
 - When you start the server by pressing the play button you see the ip where you can start the client(means your Browser), you just have to be in the same network.
 
 
