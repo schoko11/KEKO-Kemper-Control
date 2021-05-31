@@ -1,6 +1,15 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.3.1-Alpha] - 2021-05-31
+
+### Added
+- Added seperators for the stomp fx's
+
+### Fixed / changed
+- changes for OS 8.2.2: rename RECTI SHAPER to OCTA SHAPER
+- changes for OS 8.2.2: Studio EQ and Metal EQ fx updated gains to +-18 db
+- changes for OS 8.2.2: rename FUZZ to Kemper FUZZ and added Parameters
 
 ## [0.3.0-Alpha] - 2021-04-26
 
