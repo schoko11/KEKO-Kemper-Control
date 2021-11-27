@@ -1,3 +1,4 @@
+deprecated
 # KEKO-Kemper-Control
 Control your Kemper by MIDI via Touchscreen
 KEKO is based on and made with Open Stage Control (https://openstagecontrol.ammd.net)
